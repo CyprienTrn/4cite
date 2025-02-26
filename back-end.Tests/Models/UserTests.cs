@@ -32,5 +32,24 @@ namespace Back_end.Tests.Models
             var passwordHash = _passwordHasher.HashPassword(user, "password");
             Assert.True(_passwordHasher.VerifyHashedPassword(user, passwordHash, "password") == PasswordVerificationResult.Success);
         }
+
+        [Fact]
+        public void TestCreateUserEmployee()
+        {
+            User user = new()
+            {
+                Mail = "john.doe@gmail.com",
+                Pseudo = "JohnDoe",
+                Password = "password",
+                Role = "Employee"
+            };
+
+            Assert.Equal("john.doe@gmail.com", user.Mail);
+            Assert.Equal("JohnDoe", user.Pseudo);
+            Assert.Equal("Employee", user.Role);
+
+            var passwordHash = _passwordHasher.HashPassword(user, "password");
+            Assert.True(_passwordHasher.VerifyHashedPassword(user, passwordHash, "password") == PasswordVerificationResult.Success);
+        }
     }
 }
