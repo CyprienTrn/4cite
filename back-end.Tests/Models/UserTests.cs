@@ -86,7 +86,7 @@ namespace Back_end.Tests.Models
         * Le rôle doit être User, Employee ou Admin
         * Sinon le rôle sera User
         */
-        public void TestCteayeUserRoleUnknown()
+        public void TestCreateUserRoleUnknown()
         {
             User user = new()
             {
@@ -102,6 +102,29 @@ namespace Back_end.Tests.Models
 
             var passwordHash = _passwordHasher.HashPassword(user, "password");
             Assert.True(_passwordHasher.VerifyHashedPassword(user, passwordHash, "password") == PasswordVerificationResult.Success);
+        }
+
+        [Fact]
+        public void TestMailNotValid()
+        {
+            User user = new()
+            {
+                Mail = "john.doe",
+                Pseudo = "JohnDoe",
+                Password = "password",
+                Role = "User"
+            };
+
+            // Mail sans point
+            Assert.False(user.IsMailValid());
+
+            // Mail sans @
+            user.Mail = "joh.n@123";
+            Assert.False(user.IsMailValid());
+
+            // Mail vide
+            user.Mail = "";
+            Assert.False(user.IsMailValid());
         }
     }
 }
