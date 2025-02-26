@@ -109,6 +109,32 @@ namespace Back_end.Tests.Models
         }
 
         [Fact]
+        /**
+        * Test de la création d'un utilisateur sans spécifier de rôle
+        * Le rôle doit être User
+        */
+        public void TestCreateUserWithoutSpecifyingRole()
+        {
+            User user = new()
+            {
+                Mail = "john.doe@gmail.com",
+                Pseudo = "JohnDoe",
+                Password = "password"
+            };
+
+            Assert.Equal("john.doe@gmail.com", user.Mail);
+            Assert.True(user.IsMailValid());
+            Assert.Equal("JohnDoe", user.Pseudo);
+            Assert.Equal("User", user.Role);
+
+            var passwordHash = _passwordHasher.HashPassword(user, "password");
+            Assert.True(_passwordHasher.VerifyHashedPassword(user, passwordHash, "password") == PasswordVerificationResult.Success);
+        }
+
+        [Fact]
+        /**
+        * Test de la création d'un utilisateur avec un mail non valide
+        */
         public void TestMailNotValid()
         {
             User user = new()
