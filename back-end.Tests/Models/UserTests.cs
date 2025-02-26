@@ -29,6 +29,7 @@ namespace Back_end.Tests.Models
             };
 
             Assert.Equal("john.doe@gmail.com", user.Mail);
+            Assert.True(user.IsMailValid());
             Assert.Equal("JohnDoe", user.Pseudo);
             Assert.Equal("User", user.Role);
 
@@ -51,6 +52,7 @@ namespace Back_end.Tests.Models
             };
 
             Assert.Equal("john.doe@gmail.com", user.Mail);
+            Assert.True(user.IsMailValid());
             Assert.Equal("JohnDoe", user.Pseudo);
             Assert.Equal("Employee", user.Role);
 
@@ -73,6 +75,7 @@ namespace Back_end.Tests.Models
             };
 
             Assert.Equal("john.doe@gmail.com", user.Mail);
+            Assert.True(user.IsMailValid());
             Assert.Equal("JohnDoe", user.Pseudo);
             Assert.Equal("Admin", user.Role);
 
@@ -97,6 +100,7 @@ namespace Back_end.Tests.Models
             };
 
             Assert.Equal("john.doe@gmail.com", user.Mail);
+            Assert.True(user.IsMailValid());
             Assert.Equal("JohnDoe", user.Pseudo);
             Assert.Equal("User", user.Role);
 
