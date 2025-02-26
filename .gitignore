@@ -1,0 +1,32 @@
+# ========================================
+#            Partie backend
+# ========================================
+
+### DotnetCore ###
+# .NET Core build folders
+back-end/bin/
+back-end/obj/
+
+# .NET Tests
+back-end.Tests/bin/
+back-end.Tests/obj/
+
+# ========================================
+#            Partie frontend
+# ========================================
+
+### react ###
+front-end/.DS_*
+front-end/*.log
+front-end/logs
+front-end/**/*.backup.*
+front-end/**/*.back.*
+
+front-end/node_modules
+front-end/bower_components
+
+front-end/*.sublime*
+
+front-end/psd
+front-end/thumb
+front-end/sketch
