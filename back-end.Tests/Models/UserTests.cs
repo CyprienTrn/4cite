@@ -14,6 +14,9 @@ namespace Back_end.Tests.Models
         }
 
         [Fact]
+        /**
+        * Test de la création d'un utilisateur avec un rôle User
+        */
         public void TestCreateUserDefault()
         {
 
@@ -34,6 +37,9 @@ namespace Back_end.Tests.Models
         }
 
         [Fact]
+        /**
+        * Test de la création d'un utilisateur avec un rôle Employee
+        */
         public void TestCreateUserEmployee()
         {
             User user = new()
@@ -53,6 +59,9 @@ namespace Back_end.Tests.Models
         }
 
         [Fact]
+        /**
+        * Test de la création d'un utilisateur avec un rôle Admin
+        */
         public void TestCreateUserAdmin()
         {
             User user = new()
@@ -66,6 +75,30 @@ namespace Back_end.Tests.Models
             Assert.Equal("john.doe@gmail.com", user.Mail);
             Assert.Equal("JohnDoe", user.Pseudo);
             Assert.Equal("Admin", user.Role);
+
+            var passwordHash = _passwordHasher.HashPassword(user, "password");
+            Assert.True(_passwordHasher.VerifyHashedPassword(user, passwordHash, "password") == PasswordVerificationResult.Success);
+        }
+
+        [Fact]
+        /**
+        * Test de la création d'un utilisateur avec un rôle inconnu
+        * Le rôle doit être User, Employee ou Admin
+        * Sinon le rôle sera User
+        */
+        public void TestCteayeUserRoleUnknown()
+        {
+            User user = new()
+            {
+                Mail = "john.doe@gmail.com",
+                Pseudo = "JohnDoe",
+                Password = "password",
+                Role = "zefjoij"
+            };
+
+            Assert.Equal("john.doe@gmail.com", user.Mail);
+            Assert.Equal("JohnDoe", user.Pseudo);
+            Assert.Equal("User", user.Role);
 
             var passwordHash = _passwordHasher.HashPassword(user, "password");
             Assert.True(_passwordHasher.VerifyHashedPassword(user, passwordHash, "password") == PasswordVerificationResult.Success);
