@@ -1,4 +1,5 @@
 using System.Net.Mail;
+using System.Text.RegularExpressions;
 using back_end.Enums;
 
 namespace back_end.Models
@@ -41,7 +42,10 @@ namespace back_end.Models
             try
             {
                 var mailAddress = new MailAddress(mail);
-                return true;
+
+                // Vérifie que l'email respecte un format correct avec un TLD
+                string emailRegex = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+                return Regex.IsMatch(mail, emailRegex);
             }
             catch (FormatException)
             {

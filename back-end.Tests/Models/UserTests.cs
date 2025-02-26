@@ -151,7 +151,7 @@ namespace back_end.Tests.Models
 
             // Mail sans @
             user.Mail = "joh.n@123";
-            Assert.False(User.IsMailValid(user.Mail)); ;
+            Assert.False(User.IsMailValid(user.Mail));
 
             // Mail vide
             user.Mail = "";
