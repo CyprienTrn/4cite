@@ -1,6 +1,7 @@
 using System.Net.Mail;
+using back_end.Enums;
 
-namespace Back_end.Models
+namespace back_end.Models
 {
     public class User
     {
@@ -8,7 +9,24 @@ namespace Back_end.Models
         public required string Mail { get; set; }
         public required string Pseudo { get; set; }
         public required string Password { get; set; }
-        public required string Role { get; set; }
+        private RolesEnum _role = RolesEnum.User; // Définit "User" par défaut
+
+        public RolesEnum Role
+        {
+            get => _role;
+            set
+            {
+                // Vérifie que la valeur donnée est bien un rôle valide
+                if (Enum.IsDefined(typeof(RolesEnum), value))
+                {
+                    _role = value;
+                }
+                else
+                {
+                    _role = RolesEnum.User; // Valeur par défaut si invalide
+                }
+            }
+        }
 
         /**
          * Vérifie si l'email est valide

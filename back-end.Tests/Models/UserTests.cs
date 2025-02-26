@@ -1,7 +1,8 @@
-using Back_end.Models;
+using back_end.Models;
+using back_end.Enums;
 using Microsoft.AspNetCore.Identity;
 
-namespace Back_end.Tests.Models
+namespace back_end.Tests.Models
 {
     public class UserTests
     {
@@ -25,13 +26,13 @@ namespace Back_end.Tests.Models
                 Mail = "john.doe@gmail.com",
                 Pseudo = "JohnDoe",
                 Password = "password",
-                Role = "User"
+                Role = RolesEnum.User
             };
 
             Assert.Equal("john.doe@gmail.com", user.Mail);
-            Assert.True(user.IsMailValid());
+            Assert.True(User.IsMailValid(user.Mail));
             Assert.Equal("JohnDoe", user.Pseudo);
-            Assert.Equal("User", user.Role);
+            Assert.Equal(RolesEnum.User, user.Role);
 
             var passwordHash = _passwordHasher.HashPassword(user, "password");
             Assert.True(_passwordHasher.VerifyHashedPassword(user, passwordHash, "password") == PasswordVerificationResult.Success);
@@ -48,13 +49,13 @@ namespace Back_end.Tests.Models
                 Mail = "john.doe@gmail.com",
                 Pseudo = "JohnDoe",
                 Password = "password",
-                Role = "Employee"
+                Role = RolesEnum.Employee
             };
 
             Assert.Equal("john.doe@gmail.com", user.Mail);
-            Assert.True(user.IsMailValid());
+            Assert.True(User.IsMailValid(user.Mail));
             Assert.Equal("JohnDoe", user.Pseudo);
-            Assert.Equal("Employee", user.Role);
+            Assert.Equal(RolesEnum.Employee, user.Role);
 
             var passwordHash = _passwordHasher.HashPassword(user, "password");
             Assert.True(_passwordHasher.VerifyHashedPassword(user, passwordHash, "password") == PasswordVerificationResult.Success);
@@ -71,13 +72,13 @@ namespace Back_end.Tests.Models
                 Mail = "john.doe@gmail.com",
                 Pseudo = "JohnDoe",
                 Password = "password",
-                Role = "Admin"
+                Role = RolesEnum.Admin
             };
 
             Assert.Equal("john.doe@gmail.com", user.Mail);
-            Assert.True(user.IsMailValid());
+            Assert.True(User.IsMailValid(user.Mail));
             Assert.Equal("JohnDoe", user.Pseudo);
-            Assert.Equal("Admin", user.Role);
+            Assert.Equal(RolesEnum.Admin, user.Role);
 
             var passwordHash = _passwordHasher.HashPassword(user, "password");
             Assert.True(_passwordHasher.VerifyHashedPassword(user, passwordHash, "password") == PasswordVerificationResult.Success);
@@ -96,13 +97,13 @@ namespace Back_end.Tests.Models
                 Mail = "john.doe@gmail.com",
                 Pseudo = "JohnDoe",
                 Password = "password",
-                Role = "zefjoij"
+                Role = (RolesEnum)99999 // On simule un rôle inconnu
             };
 
             Assert.Equal("john.doe@gmail.com", user.Mail);
-            Assert.True(user.IsMailValid());
+            Assert.True(User.IsMailValid(user.Mail));
             Assert.Equal("JohnDoe", user.Pseudo);
-            Assert.Equal("User", user.Role);
+            Assert.Equal(RolesEnum.User, user.Role);
 
             var passwordHash = _passwordHasher.HashPassword(user, "password");
             Assert.True(_passwordHasher.VerifyHashedPassword(user, passwordHash, "password") == PasswordVerificationResult.Success);
@@ -123,9 +124,9 @@ namespace Back_end.Tests.Models
             };
 
             Assert.Equal("john.doe@gmail.com", user.Mail);
-            Assert.True(user.IsMailValid());
+            Assert.True(User.IsMailValid(user.Mail));
             Assert.Equal("JohnDoe", user.Pseudo);
-            Assert.Equal("User", user.Role);
+            Assert.Equal(RolesEnum.User, user.Role);
 
             var passwordHash = _passwordHasher.HashPassword(user, "password");
             Assert.True(_passwordHasher.VerifyHashedPassword(user, passwordHash, "password") == PasswordVerificationResult.Success);
@@ -142,19 +143,19 @@ namespace Back_end.Tests.Models
                 Mail = "john.doe",
                 Pseudo = "JohnDoe",
                 Password = "password",
-                Role = "User"
+                Role = RolesEnum.User
             };
 
             // Mail sans point
-            Assert.False(user.IsMailValid());
+            Assert.False(User.IsMailValid(user.Mail)); ;
 
             // Mail sans @
             user.Mail = "joh.n@123";
-            Assert.False(user.IsMailValid());
+            Assert.False(User.IsMailValid(user.Mail)); ;
 
             // Mail vide
             user.Mail = "";
-            Assert.False(user.IsMailValid());
+            Assert.False(User.IsMailValid(user.Mail)); ;
         }
     }
 }
