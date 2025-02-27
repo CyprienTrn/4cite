@@ -8,10 +8,12 @@ namespace back_end.Tests.Models
         /**
         * Test de la création d'un hôtel avec des valeurs valides
         */
+        [Fact]
         public void TestCreateHotel()
         {
             Hotel hotel = new()
             {
+                Id = 1,
                 Name = "Hotel California",
                 Location = "California",
                 Description = "A lovely place",
@@ -22,8 +24,8 @@ namespace back_end.Tests.Models
             Assert.Equal("California", hotel.Location);
             Assert.Equal("A lovely place", hotel.Description);
             Assert.Equal(2, hotel.PictureList.Count);
-            Assert.Contains(base64Picture1, hotel.PictureList);
-            Assert.Contains(base64Picture2, hotel.PictureList);
+            Assert.Contains(ImageSampleForTest.base64Picture1, hotel.PictureList);
+            Assert.Contains(ImageSampleForTest.base64Picture2, hotel.PictureList);
         }
 
         [Fact]
@@ -34,6 +36,7 @@ namespace back_end.Tests.Models
         {
             Hotel hotel = new()
             {
+                Id = 1,
                 Name = "Hotel California",
                 Location = "California",
                 Description = "A lovely place"
@@ -53,6 +56,7 @@ namespace back_end.Tests.Models
         {
             Hotel hotel = new()
             {
+                Id = 1,
                 Name = "Hotel California",
                 Location = "California",
                 Description = "A lovely place",
@@ -72,33 +76,32 @@ namespace back_end.Tests.Models
         */
         public void TestCreateHotelWithEmptyName()
         {
-            Assert.Throws<ArgumentException>(() =>
-            {
-                Hotel hotel = new()
+            Hotel hotel = new()
                 {
+                    Id = 1,
                     Name = "",
                     Location = "California",
-                    Description = "A lovely place"
+                    Description = "A lovely place",
                     PictureList = new List<string> {ImageSampleForTest.base64Picture1, ImageSampleForTest.base64Picture2}
                 };
-            });
+            Assert.False(hotel.Validate());            
         }
 
         /**
         * Test de la création d'un hôtel avec une localisation vide
         */
+        [Fact]
         public void TestCreateHotelWithEmptyLocation()
         {
-            Assert.Throws<ArgumentException>(() =>
+            Hotel hotel = new()
             {
-                Hotel hotel = new()
-                {
-                    Name = "Hotel California",
-                    Location = "",
-                    Description = "A lovely place"
-                    PictureList = new List<string> {ImageSampleForTest.base64Picture1, ImageSampleForTest.base64Picture2}
-                };
-            });
+                Id = 1,
+                Name = "Hotel California",
+                Location = "",
+                Description = "A lovely place",
+                PictureList = new List<string> {ImageSampleForTest.base64Picture1, ImageSampleForTest.base64Picture2}
+            };
+            Assert.False(hotel.Validate());
         }
     }
 }
