@@ -25,7 +25,24 @@ namespace back_end.Tests.Models
             Assert.Contains(base64Picture1, hotel.PictureList);
             Assert.Contains(base64Picture2, hotel.PictureList);
         }
-        
 
+        [Fact]
+        /**
+        * Test de la création d'un hôtel sans spécifier de liste d'images
+        */
+        public void TestCreateHotelWithoutPictures()
+        {
+            Hotel hotel = new()
+            {
+                Name = "Hotel California",
+                Location = "California",
+                Description = "A lovely place"
+            };
+
+            Assert.Equal("Hotel California", hotel.Name);
+            Assert.Equal("California", hotel.Location);
+            Assert.Equal("A lovely place", hotel.Description);
+            Assert.Empty(hotel.PictureList);
+        }
     }
 }
