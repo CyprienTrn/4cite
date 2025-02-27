@@ -83,5 +83,22 @@ namespace back_end.Tests.Models
                 };
             });
         }
+
+        /**
+        * Test de la création d'un hôtel avec une localisation vide
+        */
+        public void TestCreateHotelWithEmptyLocation()
+        {
+            Assert.Throws<ArgumentException>(() =>
+            {
+                Hotel hotel = new()
+                {
+                    Name = "Hotel California",
+                    Location = "",
+                    Description = "A lovely place"
+                    PictureList = new List<string> {ImageSampleForTest.base64Picture1, ImageSampleForTest.base64Picture2}
+                };
+            });
+        }
     }
 }
