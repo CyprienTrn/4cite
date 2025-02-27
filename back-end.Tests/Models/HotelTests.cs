@@ -65,5 +65,23 @@ namespace back_end.Tests.Models
             Assert.Contains(ImageSampleForTest.base64Picture1, hotel.PictureList);
             Assert.Contains(ImageSampleForTest.base64Picture2, hotel.PictureList);
         }
+
+        [Fact]
+        /**
+        * Test de la création d'un hôtel avec un nom vide
+        */
+        public void TestCreateHotelWithEmptyName()
+        {
+            Assert.Throws<ArgumentException>(() =>
+            {
+                Hotel hotel = new()
+                {
+                    Name = "",
+                    Location = "California",
+                    Description = "A lovely place"
+                    PictureList = new List<string> {ImageSampleForTest.base64Picture1, ImageSampleForTest.base64Picture2}
+                };
+            });
+        }
     }
 }
