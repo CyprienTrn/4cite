@@ -43,5 +43,22 @@ namespace back_end.Tests.Models
             Assert.Equal(RoomTypeEnum.Deluxe, booking.RoomType);
             Assert.False(booking.Breakfast);
         }
+        
+        /**
+        * Test de la création d'une réservation avec un email client vide
+        */
+        [Fact]
+        public void TestCreateBookingWithEmptyCustomerEmail()
+        {
+            Booking booking = new()
+            {
+                Date = new DateTime(2025, 2, 27),
+                CustomerEmail = "",
+                RoomType = RoomTypeEnum.Deluxe,
+                Breakfast = false
+            };
+
+            Assert.False(booking.ValidateRequiredFields());
+        }
     }
 }
