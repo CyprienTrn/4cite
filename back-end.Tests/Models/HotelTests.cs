@@ -44,5 +44,26 @@ namespace back_end.Tests.Models
             Assert.Equal("A lovely place", hotel.Description);
             Assert.Empty(hotel.PictureList);
         }
+
+        [Fact]
+        /**
+        * Test de la modification de la liste d'images d'un hôtel
+        */
+        public void TestModifyHotelPictures()
+        {
+            Hotel hotel = new()
+            {
+                Name = "Hotel California",
+                Location = "California",
+                Description = "A lovely place",
+                PictureList = new List<string> {ImageSampleForTest.base64Picture1}
+            };
+
+            hotel.PictureList.Add(ImageSampleForTest.base64Picture2);
+
+            Assert.Equal(2, hotel.PictureList.Count);
+            Assert.Contains(ImageSampleForTest.base64Picture1, hotel.PictureList);
+            Assert.Contains(ImageSampleForTest.base64Picture2, hotel.PictureList);
+        }
     }
 }
