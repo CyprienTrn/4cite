@@ -17,8 +17,8 @@
     "testEnvironment": "jsdom"
   },
   "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "@mui/material": "^6.4.6",
+    "react": "^19.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.26.9",
