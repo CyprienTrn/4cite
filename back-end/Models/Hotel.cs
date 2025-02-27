@@ -11,7 +11,7 @@ namespace back_end.Models
         public string? Description { get; set; }
         public List<string> PictureList { get; set; } = new List<string>();
 
-        public bool Validate()
+        public bool ValidateRequiredField()
         {
             return string.IsNullOrWhiteSpace(Name) && string.IsNullOrWhiteSpace(Location);
         }

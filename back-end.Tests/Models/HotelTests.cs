@@ -84,7 +84,7 @@ namespace back_end.Tests.Models
                     Description = "A lovely place",
                     PictureList = new List<string> {ImageSampleForTest.base64Picture1, ImageSampleForTest.base64Picture2}
                 };
-            Assert.False(hotel.Validate());            
+            Assert.False(hotel.ValidateRequiredField());            
         }
 
         /**
@@ -101,7 +101,7 @@ namespace back_end.Tests.Models
                 Description = "A lovely place",
                 PictureList = new List<string> {ImageSampleForTest.base64Picture1, ImageSampleForTest.base64Picture2}
             };
-            Assert.False(hotel.Validate());
+            Assert.False(hotel.ValidateRequiredField());
         }
     }
 }
