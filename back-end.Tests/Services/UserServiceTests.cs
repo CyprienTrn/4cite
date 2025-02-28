@@ -337,4 +337,14 @@ public class UserServiceTests : IDisposable
         // Assert
         act.Should().Throw<Exception>().WithMessage($"Utilisateur avec l'identifiant '{guidUser}' est introuvable");
     }
+
+    [Fact]
+    public void DeleteUser_ShouldThrowException_WhenUserIsNull()
+    {
+        // Act
+        Action act = () => _userService.DeleteUser(Guid.Empty);
+
+        // Assert
+        act.Should().Throw<Exception>().WithMessage($"Utilisateur avec l'identifiant '{Guid.Empty}' est introuvable");
+    }
 }
