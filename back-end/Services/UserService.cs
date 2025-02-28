@@ -76,5 +76,31 @@ namespace back_end.Services
                 throw new Exception("Erreur lors de la suppression de l'utilisateur", ex);
             }
         }
+
+        public User UpdateUser(Guid id, User user)
+        {
+            var userToUpdate = _context.User.Find(id);
+
+            if (userToUpdate == null)
+            {
+                throw new Exception($"Utilisateur avec l'identifiant '{id}' est introuvable");
+            }
+
+            try
+            {
+                userToUpdate.Pseudo = user.Pseudo;
+                userToUpdate.Mail = user.Mail;
+                userToUpdate.Role = user.Role;
+                userToUpdate.Password = user.Password;
+
+                _context.SaveChanges();
+
+                return userToUpdate;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erreur lors de la mise à jour de l'utilisateur", ex);
+            }
+        }
     }
 }
