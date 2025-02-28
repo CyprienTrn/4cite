@@ -303,4 +303,27 @@ public class UserServiceTests : IDisposable
         // Assert
         act.Should().Throw<Exception>().WithMessage($"Utilisateur avec l'identifiant '{guidUser}' est introuvable");
     }
+
+    // Delete user
+
+    [Fact]
+    public void DeleteUser_ShouldRemoveUser_WhenUserExists()
+    {
+        // Arrange
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Pseudo = "User1",
+            Mail = "user1@hotmail.com",
+            Password = "Password1"
+        };
+        _context.User.Add(user);
+        _context.SaveChanges();
+
+        // Act
+        _userService.DeleteUser(user.Id);
+
+        // Assert
+        _context.User.FirstOrDefault(u => u.Id == user.Id).Should().BeNull();
+    }
 }
