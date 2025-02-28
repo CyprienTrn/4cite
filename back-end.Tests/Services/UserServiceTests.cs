@@ -1,42 +1,53 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using back_end.Services;
+using Xunit;
 using back_end.Database;
-using FluentAssertions;
+using back_end.Services;
 using back_end.Models;
-using Moq;
+using Microsoft.AspNetCore.Identity;
+using FluentAssertions;
 
-namespace back_end.Tests.Services
+public class UserServiceTests : IDisposable
 {
-    public class UserServiceTests
+    private readonly ApplicationDbContext _context;
+    private readonly UserService _userService;
+
+    public UserServiceTests()
     {
-        private readonly UserService _userService;
-        private readonly ApplicationDbContext _context;
-        private readonly Mock<IPasswordHasher<User>> _passwordHasherMock;
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "TestDatabase") // 🔹 Base en mémoire
+            .Options;
 
+        _context = new ApplicationDbContext(options);
+        _userService = new UserService(_context, new PasswordHasher<User>());
 
-        public UserServiceTests()
-        {
-            // Configuration en mémoire d'EFCore pour simuler une DB
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: "TestDatabase")
-                .Options;
+        _context.Database.EnsureCreated(); // 🔹 S'assure que la base est prête
+    }
 
-            // Création d'un mock pour le hashage des mots de passe
-            _passwordHasherMock = new Mock<IPasswordHasher<User>>();
+    public void Dispose()
+    {
+        _context.Database.EnsureDeleted(); // 🔹 Nettoie après chaque test
+        _context.Dispose();
+    }
 
-            _context = new ApplicationDbContext(options);
-            _userService = new UserService(_context, _passwordHasherMock.Object);
-        }
+    [Fact]
+    public void GetAllUsers_ShouldReturnAllUsers_WhenUsersExist()
+    {
+        // 🔹 Nettoyer la base avant de commencer
+        _context.User.RemoveRange(_context.User);
+        _context.SaveChanges();
 
-        [Fact]
-        public void GetAllUsers_ShouldReturnEmptyList_WhenNoUsersExist()
-        {
-            // Act
-            var users = _userService.GetAllUsers();
+        // Arrange
+        var user1 = new User { Pseudo = "User1", Mail = "user1@hotmail.com", Password = "Password1" };
+        var user2 = new User { Pseudo = "User2", Mail = "user2@hotmail.com", Password = "Password2" };
 
-            // Assert
-            users.Should().BeEmpty();
-        }
+        _context.User.Add(user1);
+        _context.User.Add(user2);
+        _context.SaveChanges();
+
+        // Act
+        var users = _userService.GetAllUsers();
+
+        // Assert
+        users.Should().HaveCount(2);
     }
 }
