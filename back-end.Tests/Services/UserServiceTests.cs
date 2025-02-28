@@ -414,5 +414,39 @@ public class UserServiceTests : IDisposable
         result.Mail.Should().Be("user2@hotmail.com");
         result.Password.Should().Be("Password2");
         result.Role.Should().Be(RolesEnum.User);
-
     }
+
+    [Fact]
+    public void UpdateUser_ShouldUpdateUserToEmployeeRole_WhenUserExists()
+    {
+        // Arrange
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Pseudo = "User1",
+            Mail = "user1@hotmail.com",
+            Password = "Password1"
+        };
+
+        _context.User.Add(user);
+        _context.SaveChanges();
+
+        var updatedUser = new User
+        {
+            Id = user.Id,
+            Pseudo = "User1",
+            Mail = "user1@hotmail.com",
+            Password = "Password1",
+            Role = RolesEnum.Employee
+        };
+
+        // Act
+        _userService.UpdateUser(updatedUser);
+
+        // Assert
+        var result = _context.User.FirstOrDefault(u => u.Id == user.Id);
+
+        // Test du rôle du user
+        result.Role.Should().Be(RolesEnum.Employee);
+    }
+}
