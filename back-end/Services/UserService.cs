@@ -39,5 +39,22 @@ namespace back_end.Services
             return user;
         }
 
+        public User CreateUser(User user)
+        {
+            try
+            {
+                var hashedPassword = _passwordHasher.HashPassword(user, user.Password);
+                user.Password = hashedPassword;
+
+                _context.User.Add(user);
+                _context.SaveChanges();
+
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erreur lors de la création de l'utilisateur", ex);
+            }
+        }
     }
 }
