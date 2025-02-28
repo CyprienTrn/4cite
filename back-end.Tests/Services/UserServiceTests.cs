@@ -372,7 +372,7 @@ public class UserServiceTests : IDisposable
         };
 
         // Act
-        _userService.UpdateUser(updatedUser);
+        _userService.UpdateUser(user.Id, updatedUser);
 
         // Assert
         var result = _context.User.FirstOrDefault(u => u.Id == user.Id);
@@ -403,7 +403,7 @@ public class UserServiceTests : IDisposable
         };
 
         // Act
-        _userService.UpdateUser(updatedUser);
+        _userService.UpdateUser(user.Id, updatedUser);
 
         // Assert
         var result = _context.User.FirstOrDefault(u => u.Id == user.Id);
@@ -441,7 +441,7 @@ public class UserServiceTests : IDisposable
         };
 
         // Act
-        _userService.UpdateUser(updatedUser);
+        _userService.UpdateUser(user.Id, updatedUser);
 
         // Assert
         var result = _context.User.FirstOrDefault(u => u.Id == user.Id);
@@ -476,7 +476,7 @@ public class UserServiceTests : IDisposable
         };
 
         // Act
-        _userService.UpdateUser(updatedUser);
+        _userService.UpdateUser(user.Id, updatedUser);
 
         // Assert
         var result = _context.User.FirstOrDefault(u => u.Id == user.Id);
@@ -498,7 +498,7 @@ public class UserServiceTests : IDisposable
         };
 
         // Act
-        Action act = () => _userService.UpdateUser(user);
+        Action act = () => _userService.UpdateUser(user.Id, user);
 
         // Assert
         act.Should().Throw<Exception>().WithMessage($"Utilisateur avec l'identifiant '{user.Id}' est introuvable");
@@ -507,8 +507,20 @@ public class UserServiceTests : IDisposable
     [Fact]
     public void UpdateUser_ShouldThrowException_WhenUserIsNull()
     {
+        // Arrange
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Pseudo = "User1",
+            Mail = "user1@hotmail.com",
+            Password = "Password1"
+        };
+
+        _context.User.Add(user);
+        _context.SaveChanges();
+
         // Act
-        Action act = () => _userService.UpdateUser(null);
+        Action act = () => _userService.UpdateUser(user.Id, null);
 
         // Assert
         act.Should().Throw<Exception>().WithMessage("Utilisateur avec l'identifiant '' est introuvable");
@@ -540,7 +552,7 @@ public class UserServiceTests : IDisposable
         };
 
         // Act
-        _userService.UpdateUser(updatedUser);
+        _userService.UpdateUser(user.Id, updatedUser);
 
         // Assert
         var result = _context.User.FirstOrDefault(u => u.Id == user.Id);
