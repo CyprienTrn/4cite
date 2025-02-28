@@ -3,6 +3,7 @@ using Xunit;
 using back_end.Database;
 using back_end.Services;
 using back_end.Models;
+using back_end.Enums;
 using Microsoft.AspNetCore.Identity;
 using FluentAssertions;
 using Moq;
@@ -86,14 +87,17 @@ public class UserServiceTests : IDisposable
 
     // Create users tests
     [Fact]
-    public void CreateUser_ShouldAddUser_WhenUserIsValid()
+    public void CreateUser_ShouldAddUserNotNull_WhenUserIsValid()
     {
+        Guid guidUser = Guid.NewGuid();
         // Arrange
         var user = new User
         {
+            Id = guidUser,
             Pseudo = "User1",
             Mail = "user1@hotmail.com",
-            Password = "Password1"
+            Password = "Password1",
+            Role = RolesEnum.User
         };
 
         _passwordHasherMock.Setup(p => p.HashPassword(It.IsAny<User>(), It.IsAny<string>()))
@@ -103,8 +107,40 @@ public class UserServiceTests : IDisposable
         _userService.CreateUser(user);
 
         // Assert
-        var savedUser = _context.User.FirstOrDefault(u => u.Mail == "test@example.com");
+        var savedUser = _context.User.FirstOrDefault(u => u.Mail == "user1@hotmail.com");
+
+        // Teste si le user n'est pas null
         savedUser.Should().NotBeNull();
-        savedUser.Password.Should().Be("hashedPassword");
+    }
+
+    [Fact]
+    public void CreateUser_ShouldAddUserWithRightValues_WhenUserIsValid()
+    {
+        Guid guidUser = Guid.NewGuid();
+        // Arrange
+        var user = new User
+        {
+            Id = guidUser,
+            Pseudo = "User1",
+            Mail = "user1@hotmail.com",
+            Password = "Password1",
+            Role = RolesEnum.User
+        };
+
+        _passwordHasherMock.Setup(p => p.HashPassword(It.IsAny<User>(), It.IsAny<string>()))
+                           .Returns("Password1");
+
+        // Act
+        _userService.CreateUser(user);
+
+        // Assert
+        var savedUser = _context.User.FirstOrDefault(u => u.Mail == "user1@hotmail.com");
+
+        // Test des attributs du user
+        savedUser.Id.Should().Be(guidUser);
+        savedUser.Pseudo.Should().Be("User1");
+        savedUser.Mail.Should().Be("user1@hotmail.com");
+        savedUser.Password.Should().Be("Password1");
+        savedUser.Role.Should().Be(RolesEnum.User);
     }
 }
