@@ -23,6 +23,10 @@ public class UserServiceTests : IDisposable
         _context.Database.EnsureCreated(); // 🔹 S'assure que la base est prête
     }
 
+    /**
+    * Nettoie la base après chaque test
+    * car IDisposable est implémenté
+    */
     public void Dispose()
     {
         _context.Database.EnsureDeleted(); // 🔹 Nettoie après chaque test
@@ -32,10 +36,6 @@ public class UserServiceTests : IDisposable
     [Fact]
     public void GetAllUsers_ShouldReturnAllUsers_WhenUsersExist()
     {
-        // 🔹 Nettoyer la base avant de commencer
-        _context.User.RemoveRange(_context.User);
-        _context.SaveChanges();
-
         // Arrange
         var user1 = new User { Pseudo = "User1", Mail = "user1@hotmail.com", Password = "Password1" };
         var user2 = new User { Pseudo = "User2", Mail = "user2@hotmail.com", Password = "Password2" };
@@ -49,5 +49,31 @@ public class UserServiceTests : IDisposable
 
         // Assert
         users.Should().HaveCount(2);
+    }
+
+    [Fact]
+    public void GetAllUsers_ShouldReturnEmptyList_WhenNoUsersExist()
+    {
+        // Act
+        var users = _userService.GetAllUsers();
+
+        // Assert
+        users.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void GetAllUsers_ShouldNotReturnEmptyList_WhenUsersExist()
+    {
+        // Arrange
+        var user1 = new User { Pseudo = "User1", Mail = "user1@hotmail.com", Password = "Password1" };
+
+        _context.User.Add(user1);
+        _context.SaveChanges();
+
+        // Act
+        var users = _userService.GetAllUsers();
+
+        // Assert
+        users.Should().NotBeEmpty();
     }
 }
