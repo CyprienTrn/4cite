@@ -77,8 +77,13 @@ namespace back_end.Services
             }
         }
 
-        public User UpdateUser(Guid id, User user)
+        public User UpdateUser(Guid id, User? user)
         {
+            if (user == null)
+            {
+                throw new Exception("L'utilisateur à mettre à jour est inexistant");
+            }
+
             var userToUpdate = _context.User.Find(id);
 
             if (userToUpdate == null)

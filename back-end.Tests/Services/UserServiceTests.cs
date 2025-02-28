@@ -523,7 +523,7 @@ public class UserServiceTests : IDisposable
         Action act = () => _userService.UpdateUser(user.Id, null);
 
         // Assert
-        act.Should().Throw<Exception>().WithMessage("Utilisateur avec l'identifiant '' est introuvable");
+        act.Should().Throw<Exception>().WithMessage("L'utilisateur à mettre à jour est inexistant");
     }
 
     [Fact]
