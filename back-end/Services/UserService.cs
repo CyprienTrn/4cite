@@ -17,7 +17,14 @@ namespace back_end.Services
 
         public List<User> GetAllUsers()
         {
-            return [];
+            try
+            {
+                return _context.User.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erreur lors de la récupération des utilisateurs", ex);
+            }
         }
     }
 }
