@@ -292,4 +292,15 @@ public class UserServiceTests : IDisposable
         result.Should().NotBeNull();
         result.Id.Should().Be(user.Id);
     }
+
+    [Fact]
+    public void GetUserById_ShouldThrowException_WhenUserDoesNotExist()
+    {
+        // Act 
+        Guid guidUser = Guid.NewGuid();
+        Action act = () => _userService.GetUserById(guidUser);
+
+        // Assert
+        act.Should().Throw<Exception>().WithMessage($"Utilisateur avec l'identifiant '{guidUser}' est introuvable");
+    }
 }
