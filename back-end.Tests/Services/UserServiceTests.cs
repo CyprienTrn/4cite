@@ -503,4 +503,14 @@ public class UserServiceTests : IDisposable
         // Assert
         act.Should().Throw<Exception>().WithMessage($"Utilisateur avec l'identifiant '{user.Id}' est introuvable");
     }
+
+    [Fact]
+    public void UpdateUser_ShouldThrowException_WhenUserIsNull()
+    {
+        // Act
+        Action act = () => _userService.UpdateUser(null);
+
+        // Assert
+        act.Should().Throw<Exception>().WithMessage("Utilisateur avec l'identifiant '' est introuvable");
+    }
 }
