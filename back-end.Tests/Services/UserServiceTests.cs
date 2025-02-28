@@ -83,4 +83,28 @@ public class UserServiceTests : IDisposable
         // Assert
         users.Should().NotBeEmpty();
     }
+
+    // Create users tests
+    [Fact]
+    public void CreateUser_ShouldAddUser_WhenUserIsValid()
+    {
+        // Arrange
+        var user = new User
+        {
+            Pseudo = "User1",
+            Mail = "user1@hotmail.com",
+            Password = "Password1"
+        };
+
+        _passwordHasherMock.Setup(p => p.HashPassword(It.IsAny<User>(), It.IsAny<string>()))
+                           .Returns("Password1");
+
+        // Act
+        _userService.CreateUser(user);
+
+        // Assert
+        var savedUser = _context.User.FirstOrDefault(u => u.Mail == "test@example.com");
+        savedUser.Should().NotBeNull();
+        savedUser.Password.Should().Be("hashedPassword");
+    }
 }
