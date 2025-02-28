@@ -484,4 +484,23 @@ public class UserServiceTests : IDisposable
         // Test du rôle du user
         result.Role.Should().Be(RolesEnum.Admin);
     }
+
+    [Fact]
+    public void UpdateUser_ShouldThrowException_WhenUserDoesNotExist()
+    {
+        // Arrange
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Pseudo = "User1",
+            Mail = "user1@hotmail.com",
+            Password = "Password1"
+        };
+
+        // Act
+        Action act = () => _userService.UpdateUser(user);
+
+        // Assert
+        act.Should().Throw<Exception>().WithMessage($"Utilisateur avec l'identifiant '{user.Id}' est introuvable");
+    }
 }
