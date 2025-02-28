@@ -5,22 +5,28 @@ using back_end.Services;
 using back_end.Models;
 using Microsoft.AspNetCore.Identity;
 using FluentAssertions;
+using Moq;
 
 public class UserServiceTests : IDisposable
 {
     private readonly ApplicationDbContext _context;
     private readonly UserService _userService;
+    private readonly Mock<IPasswordHasher<User>> _passwordHasherMock;
+
 
     public UserServiceTests()
     {
         var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "TestDatabase") // 🔹 Base en mémoire
+            .UseInMemoryDatabase(databaseName: "TestDatabase") // Bd de test
             .Options;
 
-        _context = new ApplicationDbContext(options);
-        _userService = new UserService(_context, new PasswordHasher<User>());
+        // Création d'un mock pour le hashage des mots de passe
+        _passwordHasherMock = new Mock<IPasswordHasher<User>>();
 
-        _context.Database.EnsureCreated(); // 🔹 S'assure que la base est prête
+        _context = new ApplicationDbContext(options);
+        _userService = new UserService(_context, _passwordHasherMock.Object);
+
+        _context.Database.EnsureCreated(); // S'assure que la bd et prête et à jour
     }
 
     /**
@@ -33,6 +39,7 @@ public class UserServiceTests : IDisposable
         _context.Dispose();
     }
 
+    // Get all users tests
     [Fact]
     public void GetAllUsers_ShouldReturnAllUsers_WhenUsersExist()
     {
