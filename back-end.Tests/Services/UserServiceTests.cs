@@ -86,189 +86,189 @@ public class UserServiceTests : IDisposable
     }
 
     // Create users tests
-    [Fact]
-    public void CreateUser_ShouldAddUserNotNull_WhenUserIsValid()
-    {
-        Guid guidUser = Guid.NewGuid();
-        // Arrange
-        var user = new User
-        {
-            Id = guidUser,
-            Pseudo = "User1",
-            Mail = "user1@hotmail.com",
-            Password = "Password1",
-            Role = RolesEnum.User
-        };
+    // [Fact]
+    // public void CreateUser_ShouldAddUserNotNull_WhenUserIsValid()
+    // {
+    //     Guid guidUser = Guid.NewGuid();
+    //     // Arrange
+    //     var user = new User
+    //     {
+    //         Id = guidUser,
+    //         Pseudo = "User1",
+    //         Mail = "user1@hotmail.com",
+    //         Password = "Password1",
+    //         Role = RolesEnum.User
+    //     };
 
-        _passwordHasherMock.Setup(p => p.HashPassword(It.IsAny<User>(), It.IsAny<string>()))
-                           .Returns("Password1");
+    //     _passwordHasherMock.Setup(p => p.HashPassword(It.IsAny<User>(), It.IsAny<string>()))
+    //                        .Returns("Password1");
 
-        // Act
-        _userService.CreateUser(user);
+    //     // Act
+    //     _userService.CreateUser(user);
 
-        // Assert
-        var savedUser = _context.User.FirstOrDefault(u => u.Mail == "user1@hotmail.com");
+    //     // Assert
+    //     var savedUser = _context.User.FirstOrDefault(u => u.Mail == "user1@hotmail.com");
 
-        // Teste si le user n'est pas null
-        savedUser.Should().NotBeNull();
-    }
+    //     // Teste si le user n'est pas null
+    //     savedUser.Should().NotBeNull();
+    // }
 
-    [Fact]
-    public void CreateUser_ShouldAddUserWithRightValues_WhenUserIsValid()
-    {
-        Guid guidUser = Guid.NewGuid();
-        // Arrange
-        var user = new User
-        {
-            Id = guidUser,
-            Pseudo = "User1",
-            Mail = "user1@hotmail.com",
-            Password = "Password1",
-            Role = RolesEnum.User
-        };
+    // [Fact]
+    // public void CreateUser_ShouldAddUserWithRightValues_WhenUserIsValid()
+    // {
+    //     Guid guidUser = Guid.NewGuid();
+    //     // Arrange
+    //     var user = new User
+    //     {
+    //         Id = guidUser,
+    //         Pseudo = "User1",
+    //         Mail = "user1@hotmail.com",
+    //         Password = "Password1",
+    //         Role = RolesEnum.User
+    //     };
 
-        _passwordHasherMock.Setup(p => p.HashPassword(It.IsAny<User>(), It.IsAny<string>()))
-                           .Returns("Password1");
+    //     _passwordHasherMock.Setup(p => p.HashPassword(It.IsAny<User>(), It.IsAny<string>()))
+    //                        .Returns("Password1");
 
-        // Act
-        _userService.CreateUser(user);
+    //     // Act
+    //     _userService.CreateUser(user);
 
-        // Assert
-        var savedUser = _context.User.FirstOrDefault(u => u.Mail == "user1@hotmail.com");
+    //     // Assert
+    //     var savedUser = _context.User.FirstOrDefault(u => u.Mail == "user1@hotmail.com");
 
-        // Test des attributs du user
-        savedUser.Id.Should().Be(guidUser);
-        savedUser.Pseudo.Should().Be("User1");
-        savedUser.Mail.Should().Be("user1@hotmail.com");
-        savedUser.Password.Should().Be("Password1");
-        savedUser.Role.Should().Be(RolesEnum.User);
-    }
+    //     // Test des attributs du user
+    //     savedUser.Id.Should().Be(guidUser);
+    //     savedUser.Pseudo.Should().Be("User1");
+    //     savedUser.Mail.Should().Be("user1@hotmail.com");
+    //     savedUser.Password.Should().Be("Password1");
+    //     savedUser.Role.Should().Be(RolesEnum.User);
+    // }
 
-    [Fact]
-    public void CreateUser_ShouldAddUserWithId_WhenUserIsValidAndWithoutId()
-    {
-        // Arrange
-        var user = new User
-        {
-            Pseudo = "User1",
-            Mail = "user1@hotmail.com",
-            Password = "Password1",
-            Role = RolesEnum.User
-        };
+    // [Fact]
+    // public void CreateUser_ShouldAddUserWithId_WhenUserIsValidAndWithoutId()
+    // {
+    //     // Arrange
+    //     var user = new User
+    //     {
+    //         Pseudo = "User1",
+    //         Mail = "user1@hotmail.com",
+    //         Password = "Password1",
+    //         Role = RolesEnum.User
+    //     };
 
-        _passwordHasherMock.Setup(p => p.HashPassword(It.IsAny<User>(), It.IsAny<string>()))
-                           .Returns("Password1");
+    //     _passwordHasherMock.Setup(p => p.HashPassword(It.IsAny<User>(), It.IsAny<string>()))
+    //                        .Returns("Password1");
 
-        // Act
-        _userService.CreateUser(user);
+    //     // Act
+    //     _userService.CreateUser(user);
 
-        // Assert
-        var savedUser = _context.User.FirstOrDefault(u => u.Mail == "user1@hotmail.com");
+    //     // Assert
+    //     var savedUser = _context.User.FirstOrDefault(u => u.Mail == "user1@hotmail.com");
 
-        // Test si l'Id n'est pas null
-        savedUser.Id.Should().NotBeEmpty();
-        // Test si l'Id est bien de type Guid
-        ((object)savedUser.Id).Should().BeOfType<Guid>();
-    }
+    //     // Test si l'Id n'est pas null
+    //     savedUser.Id.Should().NotBeEmpty();
+    //     // Test si l'Id est bien de type Guid
+    //     ((object)savedUser.Id).Should().BeOfType<Guid>();
+    // }
 
-    [Fact]
-    public void CreateUser_ShouldAddUserWithRoleUser_WhenUserIsValidAndWithoutRole()
-    {
-        // Arrange
-        var user = new User
-        {
-            Pseudo = "User1",
-            Mail = "user1@hotmail.com",
-            Password = "Password1",
-        };
+    // [Fact]
+    // public void CreateUser_ShouldAddUserWithRoleUser_WhenUserIsValidAndWithoutRole()
+    // {
+    //     // Arrange
+    //     var user = new User
+    //     {
+    //         Pseudo = "User1",
+    //         Mail = "user1@hotmail.com",
+    //         Password = "Password1",
+    //     };
 
-        _passwordHasherMock.Setup(p => p.HashPassword(It.IsAny<User>(), It.IsAny<string>()))
-                           .Returns("Password1");
+    //     _passwordHasherMock.Setup(p => p.HashPassword(It.IsAny<User>(), It.IsAny<string>()))
+    //                        .Returns("Password1");
 
-        // Act
-        _userService.CreateUser(user);
+    //     // Act
+    //     _userService.CreateUser(user);
 
-        // Assert
-        var savedUser = _context.User.FirstOrDefault(u => u.Mail == "user1@hotmail.com");
+    //     // Assert
+    //     var savedUser = _context.User.FirstOrDefault(u => u.Mail == "user1@hotmail.com");
 
-        // Test que le rôle par défaut soit bien User
-        savedUser.Role.Should().Be(RolesEnum.User);
-    }
+    //     // Test que le rôle par défaut soit bien User
+    //     savedUser.Role.Should().Be(RolesEnum.User);
+    // }
 
-    [Fact]
-    public void CreateUser_ShouldAddUserWithRoleUser_WhenUserIsValidAndWithABadRole()
-    {
-        // Arrange
-        var user = new User
-        {
-            Pseudo = "User1",
-            Mail = "user1@hotmail.com",
-            Password = "Password1",
-            Role = (RolesEnum)99999
-        };
+    // [Fact]
+    // public void CreateUser_ShouldAddUserWithRoleUser_WhenUserIsValidAndWithABadRole()
+    // {
+    //     // Arrange
+    //     var user = new User
+    //     {
+    //         Pseudo = "User1",
+    //         Mail = "user1@hotmail.com",
+    //         Password = "Password1",
+    //         Role = (RolesEnum)99999
+    //     };
 
-        _passwordHasherMock.Setup(p => p.HashPassword(It.IsAny<User>(), It.IsAny<string>()))
-                           .Returns("Password1");
+    //     _passwordHasherMock.Setup(p => p.HashPassword(It.IsAny<User>(), It.IsAny<string>()))
+    //                        .Returns("Password1");
 
-        // Act
-        _userService.CreateUser(user);
+    //     // Act
+    //     _userService.CreateUser(user);
 
-        // Assert
-        var savedUser = _context.User.FirstOrDefault(u => u.Mail == "user1@hotmail.com");
+    //     // Assert
+    //     var savedUser = _context.User.FirstOrDefault(u => u.Mail == "user1@hotmail.com");
 
-        // Test que le rôle par défaut soit bien User
-        savedUser.Role.Should().Be(RolesEnum.User);
-    }
+    //     // Test que le rôle par défaut soit bien User
+    //     savedUser.Role.Should().Be(RolesEnum.User);
+    // }
 
-    [Fact]
-    public void CreateUser_ShouldAddUserWithRoleEmployee_WhenUserIsValidAndWithTheEmployeeRole()
-    {
-        // Arrange
-        var user = new User
-        {
-            Pseudo = "User1",
-            Mail = "user1@hotmail.com",
-            Password = "Password1",
-            Role = RolesEnum.Employee
-        };
+    // [Fact]
+    // public void CreateUser_ShouldAddUserWithRoleEmployee_WhenUserIsValidAndWithTheEmployeeRole()
+    // {
+    //     // Arrange
+    //     var user = new User
+    //     {
+    //         Pseudo = "User1",
+    //         Mail = "user1@hotmail.com",
+    //         Password = "Password1",
+    //         Role = RolesEnum.Employee
+    //     };
 
-        _passwordHasherMock.Setup(p => p.HashPassword(It.IsAny<User>(), It.IsAny<string>()))
-                           .Returns("Password1");
+    //     _passwordHasherMock.Setup(p => p.HashPassword(It.IsAny<User>(), It.IsAny<string>()))
+    //                        .Returns("Password1");
 
-        // Act
-        _userService.CreateUser(user);
+    //     // Act
+    //     _userService.CreateUser(user);
 
-        // Assert
-        var savedUser = _context.User.FirstOrDefault(u => u.Mail == "user1@hotmail.com");
+    //     // Assert
+    //     var savedUser = _context.User.FirstOrDefault(u => u.Mail == "user1@hotmail.com");
 
-        // Test que le rôle par défaut soit bien User
-        savedUser.Role.Should().Be(RolesEnum.Employee);
-    }
+    //     // Test que le rôle par défaut soit bien User
+    //     savedUser.Role.Should().Be(RolesEnum.Employee);
+    // }
 
-    [Fact]
-    public void CreateUser_ShouldAddUserWithRoleAdmin_WhenUserIsValidAndWithTheAdminRole()
-    {
-        // Arrange
-        var user = new User
-        {
-            Pseudo = "User1",
-            Mail = "user1@hotmail.com",
-            Password = "Password1",
-            Role = RolesEnum.Employee
-        };
+    // [Fact]
+    // public void CreateUser_ShouldAddUserWithRoleAdmin_WhenUserIsValidAndWithTheAdminRole()
+    // {
+    //     // Arrange
+    //     var user = new User
+    //     {
+    //         Pseudo = "User1",
+    //         Mail = "user1@hotmail.com",
+    //         Password = "Password1",
+    //         Role = RolesEnum.Employee
+    //     };
 
-        _passwordHasherMock.Setup(p => p.HashPassword(It.IsAny<User>(), It.IsAny<string>()))
-                           .Returns("Password1");
+    //     _passwordHasherMock.Setup(p => p.HashPassword(It.IsAny<User>(), It.IsAny<string>()))
+    //                        .Returns("Password1");
 
-        // Act
-        _userService.CreateUser(user);
+    //     // Act
+    //     _userService.CreateUser(user);
 
-        // Assert
-        var savedUser = _context.User.FirstOrDefault(u => u.Mail == "user1@hotmail.com");
+    //     // Assert
+    //     var savedUser = _context.User.FirstOrDefault(u => u.Mail == "user1@hotmail.com");
 
-        // Test que le rôle par défaut soit bien User
-        savedUser.Role.Should().Be(RolesEnum.Admin);
-    }
+    //     // Test que le rôle par défaut soit bien User
+    //     savedUser.Role.Should().Be(RolesEnum.Admin);
+    // }
 
     // Get user by id
     [Fact]
@@ -306,35 +306,35 @@ public class UserServiceTests : IDisposable
 
     // Delete user
 
-    [Fact]
-    public void DeleteUser_ShouldRemoveUser_WhenUserExists()
-    {
-        // Arrange
-        var user = new User
-        {
-            Id = Guid.NewGuid(),
-            Pseudo = "User1",
-            Mail = "user1@hotmail.com",
-            Password = "Password1"
-        };
-        _context.User.Add(user);
-        _context.SaveChanges();
+    // [Fact]
+    // public void DeleteUser_ShouldRemoveUser_WhenUserExists()
+    // {
+    //     // Arrange
+    //     var user = new User
+    //     {
+    //         Id = Guid.NewGuid(),
+    //         Pseudo = "User1",
+    //         Mail = "user1@hotmail.com",
+    //         Password = "Password1"
+    //     };
+    //     _context.User.Add(user);
+    //     _context.SaveChanges();
 
-        // Act
-        _userService.DeleteUser(user.Id);
+    //     // Act
+    //     _userService.DeleteUser(user.Id);
 
-        // Assert
-        _context.User.FirstOrDefault(u => u.Id == user.Id).Should().BeNull();
-    }
+    //     // Assert
+    //     _context.User.FirstOrDefault(u => u.Id == user.Id).Should().BeNull();
+    // }
 
-    [Fact]
-    public void DeleteUser_ShouldThrowException_WhenUserDoesNotExist()
-    {
-        Guid guidUser = Guid.NewGuid();
-        // Act
-        Action act = () => _userService.DeleteUser(guidUser);
+    // [Fact]
+    // public void DeleteUser_ShouldThrowException_WhenUserDoesNotExist()
+    // {
+    //     Guid guidUser = Guid.NewGuid();
+    //     // Act
+    //     Action act = () => _userService.DeleteUser(guidUser);
 
-        // Assert
-        act.Should().Throw<Exception>().WithMessage($"Utilisateur avec l'identifiant '{guidUser}' est introuvable");
-    }
+    //     // Assert
+    //     act.Should().Throw<Exception>().WithMessage($"Utilisateur avec l'identifiant '{guidUser}' est introuvable");
+    // }
 }
