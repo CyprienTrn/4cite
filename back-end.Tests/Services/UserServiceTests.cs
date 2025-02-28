@@ -378,4 +378,41 @@ public class UserServiceTests : IDisposable
         var result = _context.User.FirstOrDefault(u => u.Id == user.Id);
         result.Should().NotBeNull();
     }
-}
+
+    [Fact]
+    public void UpdateUser_ShouldUpdateUserWithRightValues_WhenUserExists()
+    {
+        // Arrange
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Pseudo = "User1",
+            Mail = "user1@hotmail.com",
+            Password = "Password1"
+        };
+
+        _context.User.Add(user);
+        _context.SaveChanges();
+
+        var updatedUser = new User
+        {
+            Id = user.Id,
+            Pseudo = "User2",
+            Mail = "user2@hotmail.com",
+            Password = "Password2"
+        };
+
+        // Act
+        _userService.UpdateUser(updatedUser);
+
+        // Assert
+        var result = _context.User.FirstOrDefault(u => u.Id == user.Id);
+
+        // Test des attributs du user
+        result.Id.Should().Be(user.Id);
+        result.Pseudo.Should().Be("User2");
+        result.Mail.Should().Be("user2@hotmail.com");
+        result.Password.Should().Be("Password2");
+        result.Role.Should().Be(RolesEnum.User);
+
+    }
