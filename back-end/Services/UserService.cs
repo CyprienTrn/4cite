@@ -56,5 +56,25 @@ namespace back_end.Services
                 throw new Exception("Erreur lors de la création de l'utilisateur", ex);
             }
         }
+
+        public void DeleteUser(Guid id)
+        {
+            var user = _context.User.Find(id);
+
+            if (user == null)
+            {
+                throw new Exception($"Utilisateur avec l'identifiant '{id}' est introuvable");
+            }
+
+            try
+            {
+                _context.User.Remove(user);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erreur lors de la suppression de l'utilisateur", ex);
+            }
+        }
     }
 }
