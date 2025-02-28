@@ -347,4 +347,35 @@ public class UserServiceTests : IDisposable
         // Assert
         act.Should().Throw<Exception>().WithMessage($"Utilisateur avec l'identifiant '{Guid.Empty}' est introuvable");
     }
+
+    // Update user
+    [Fact]
+    public void UpdateUser_ShouldUpdateUser_WhenUserExists()
+    {
+        // Arrange
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Pseudo = "User1",
+            Mail = "user1@hotmail.com",
+            Password = "Password1"
+        };
+        _context.User.Add(user);
+        _context.SaveChanges();
+
+        var updatedUser = new User
+        {
+            Id = user.Id,
+            Pseudo = "User2",
+            Mail = "user2@hotmail.com",
+            Password = "Password2"
+        };
+
+        // Act
+        _userService.UpdateUser(updatedUser);
+
+        // Assert
+        var result = _context.User.FirstOrDefault(u => u.Id == user.Id);
+        result.Should().NotBeNull();
+    }
 }
