@@ -1,6 +1,9 @@
 # 4CITE
 
-
+```bash
+docker-compose up -d
+docker exec -it 4cite_bd_postgre psql -U myuser -d 4cite
+```
 
 ## Getting started
 

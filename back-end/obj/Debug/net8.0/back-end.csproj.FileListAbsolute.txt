@@ -32,3 +32,13 @@ C:\Users\toura\OneDrive\Documents\Travail\Supinfo\4CITE\4cite\back-end\obj\Debug
 C:\Users\toura\OneDrive\Documents\Travail\Supinfo\4CITE\4cite\back-end\obj\Debug\net8.0\back-end.pdb
 C:\Users\toura\OneDrive\Documents\Travail\Supinfo\4CITE\4cite\back-end\obj\Debug\net8.0\back-end.genruntimeconfig.cache
 C:\Users\toura\OneDrive\Documents\Travail\Supinfo\4CITE\4cite\back-end\obj\Debug\net8.0\ref\back-end.dll
+C:\Users\toura\OneDrive\Documents\Travail\Supinfo\4CITE\4cite\back-end\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\toura\OneDrive\Documents\Travail\Supinfo\4CITE\4cite\back-end\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\toura\OneDrive\Documents\Travail\Supinfo\4CITE\4cite\back-end\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\toura\OneDrive\Documents\Travail\Supinfo\4CITE\4cite\back-end\bin\Debug\net8.0\NetTopologySuite.dll
+C:\Users\toura\OneDrive\Documents\Travail\Supinfo\4CITE\4cite\back-end\bin\Debug\net8.0\NetTopologySuite.IO.PostGis.dll
+C:\Users\toura\OneDrive\Documents\Travail\Supinfo\4CITE\4cite\back-end\bin\Debug\net8.0\Npgsql.dll
+C:\Users\toura\OneDrive\Documents\Travail\Supinfo\4CITE\4cite\back-end\bin\Debug\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\toura\OneDrive\Documents\Travail\Supinfo\4CITE\4cite\back-end\bin\Debug\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite.dll
+C:\Users\toura\OneDrive\Documents\Travail\Supinfo\4CITE\4cite\back-end\bin\Debug\net8.0\Npgsql.NetTopologySuite.dll
+C:\Users\toura\OneDrive\Documents\Travail\Supinfo\4CITE\4cite\back-end\obj\Debug\net8.0\EFCoreNpgsqlNetTopologySuite.cs
