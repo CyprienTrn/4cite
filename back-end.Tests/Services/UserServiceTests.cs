@@ -269,4 +269,27 @@ public class UserServiceTests : IDisposable
         // Test que le rôle par défaut soit bien User
         savedUser.Role.Should().Be(RolesEnum.Admin);
     }
+
+    // Get user by id
+    [Fact]
+    public void GetUserById_ShouldReturnUser_WhenUserExists()
+    {
+        // Arrange
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Pseudo = "User1",
+            Mail = "user1@hotmail.com",
+            Password = "Password1"
+        };
+        _context.User.Add(user);
+        _context.SaveChanges();
+
+        // Act
+        var result = _userService.GetUserById(user.Id);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Id.Should().Be(user.Id);
+    }
 }
