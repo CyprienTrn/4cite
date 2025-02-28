@@ -143,4 +143,31 @@ public class UserServiceTests : IDisposable
         savedUser.Password.Should().Be("Password1");
         savedUser.Role.Should().Be(RolesEnum.User);
     }
+
+    [Fact]
+    public void CreateUser_ShouldAddUserWithId_WhenUserIsValidAndWithoutId()
+    {
+        // Arrange
+        var user = new User
+        {
+            Pseudo = "User1",
+            Mail = "user1@hotmail.com",
+            Password = "Password1",
+            Role = RolesEnum.User
+        };
+
+        _passwordHasherMock.Setup(p => p.HashPassword(It.IsAny<User>(), It.IsAny<string>()))
+                           .Returns("Password1");
+
+        // Act
+        _userService.CreateUser(user);
+
+        // Assert
+        var savedUser = _context.User.FirstOrDefault(u => u.Mail == "user1@hotmail.com");
+
+        // Test si l'Id n'est pas null
+        savedUser.Id.Should().NotBeEmpty();
+        // Test si l'Id est bien de type Guid
+        ((object)savedUser.Id).Should().BeOfType<Guid>();
+    }
 }
