@@ -64,5 +64,25 @@ namespace back_end.Tests.Controllers
 
             _mockService.Verify(service => service.GetAllUsers(), Times.Once);
         }
+
+        /**
+        * Teste si la méthode GetAllUsers retourne un message d'erreur si une exception est levée
+        */
+        [Fact]
+        public void GetAllUsers_ReturnsInternalServerError()
+        {
+            // Arrange
+            _mockService.Setup(service => service.GetAllUsers()).Throws(new Exception("Erreur interne"));
+
+            // Act
+            var result = _controller.GetAllUsers();
+
+            // Assert
+            var statusCodeResult = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(500, statusCodeResult.StatusCode);
+            Assert.Equal("Erreur interne : ", statusCodeResult.Value);
+
+            _mockService.Verify(service => service.GetAllUsers(), Times.Once);
+        }
     }
 }
