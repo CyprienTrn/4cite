@@ -1,10 +1,11 @@
 using back_end.Database;
 using back_end.Models;
+using back_end.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
 namespace back_end.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly ApplicationDbContext _context;
         private readonly IPasswordHasher<User> _passwordHasher;

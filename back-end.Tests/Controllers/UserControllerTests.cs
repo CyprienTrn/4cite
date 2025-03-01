@@ -1,5 +1,5 @@
 using back_end.Controllers;
-using back_end.Services;
+using back_end.Interfaces;
 using back_end.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -9,7 +9,7 @@ namespace back_end.Tests.Controllers
     public class UserControllerTests
     {
         private readonly UserController _controller;
-        private readonly Mock<UserService> _mockService = new Mock<UserService>();
+        private readonly Mock<IUserService> _mockService = new Mock<IUserService>();
 
         public UserControllerTests()
         {
@@ -80,7 +80,7 @@ namespace back_end.Tests.Controllers
             // Assert
             var statusCodeResult = Assert.IsType<ObjectResult>(result);
             Assert.Equal(500, statusCodeResult.StatusCode);
-            Assert.Equal("Erreur interne : ", statusCodeResult.Value);
+            Assert.Equal("Erreur interne : Erreur interne", statusCodeResult.Value);
 
             _mockService.Verify(service => service.GetAllUsers(), Times.Once);
         }
