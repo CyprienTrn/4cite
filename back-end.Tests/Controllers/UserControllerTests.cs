@@ -45,5 +45,24 @@ namespace back_end.Tests.Controllers
 
             _mockService.Verify(service => service.GetAllUsers(), Times.Once);
         }
+
+        /**
+        * Teste si la méthode GetAllUsers retourne un message d'erreur si aucun utilisateur n'est trouvé
+        */
+        [Fact]
+        public void GetAllUsers_ReturnsNotFound()
+        {
+            // Arrange
+            _mockService.Setup(service => service.GetAllUsers()).Returns(new List<User>());
+
+            // Act
+            var result = _controller.GetAllUsers();
+
+            // Assert
+            var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.Equal("Aucun utilisateur trouvé.", notFoundResult.Value);
+
+            _mockService.Verify(service => service.GetAllUsers(), Times.Once);
+        }
     }
 }
