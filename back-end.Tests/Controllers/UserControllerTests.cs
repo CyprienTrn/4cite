@@ -419,5 +419,27 @@ namespace back_end.Tests.Controllers
 
             _mockService.Verify(service => service.DeleteUser(id), Times.Once);
         }
+
+        /**
+        * Teste si la méthode DeleteUser retourne un message d'erreur si une exception est levée
+        */
+        [Fact]
+        public void DeleteUser_ReturnsInternalServerError()
+        {
+            // Arrange
+            Guid id = Guid.NewGuid();
+
+            _mockService.Setup(service => service.DeleteUser(id)).Throws(new Exception("Erreur interne"));
+
+            // Act
+            var result = _controller.DeleteUser(id);
+
+            // Assert
+            var statusCodeResult = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(500, statusCodeResult.StatusCode);
+            Assert.Equal("Erreur interne : Erreur interne", statusCodeResult.Value);
+
+            _mockService.Verify(service => service.DeleteUser(id), Times.Once);
+        }
     }
 }
