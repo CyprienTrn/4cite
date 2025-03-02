@@ -6,5 +6,6 @@ namespace back_end.Interfaces
     {
         List<User> GetAllUsers();
         User GetUserById(Guid id);
+        User CreateUser(User user);
     }
 }
