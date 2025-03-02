@@ -89,5 +89,17 @@ namespace back_end.Controllers
             }
         }
 
+        public IActionResult DeleteUser(Guid id)
+        {
+            try
+            {
+                _userService.DeleteUser(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erreur interne : {ex.Message}");
+            }
+        }
     }
 }
