@@ -51,6 +51,11 @@ namespace back_end.Controllers
         {
             try
             {
+                if (user == null)
+                {
+                    return BadRequest("L'utilisateur ne peut pas être null.");
+                }
+
                 var createdUser = _userService.CreateUser(user);
                 return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createdUser);
             }
@@ -59,5 +64,6 @@ namespace back_end.Controllers
                 return StatusCode(500, $"Erreur interne : {ex.Message}");
             }
         }
+
     }
 }
