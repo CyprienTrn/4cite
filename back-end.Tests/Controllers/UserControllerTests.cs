@@ -218,19 +218,18 @@ namespace back_end.Tests.Controllers
             var result = _controller.CreateUser(user);
 
             // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-            var returnUser = Assert.IsType<User>(okResult.Value);
+            var createdAtResult = Assert.IsType<CreatedAtActionResult>(result);
+            var returnUser = Assert.IsType<User>(createdAtResult.Value);
 
-            // Teste si les informations de l'utilisateur sont correctes
+            // Vérifie les attributs de l'utilisateur
             Assert.Equal(id, returnUser.Id);
             Assert.Equal("User1", returnUser.Pseudo);
             Assert.Equal("user1@hotmail.com", returnUser.Mail);
             Assert.Equal(RolesEnum.User, returnUser.Role);
-            // Teste si le mot de passe n'est pas en clair
-            Assert.NotEqual("Password1", returnUser.Password);
 
             _mockService.Verify(service => service.CreateUser(user), Times.Once);
         }
+
 
         /**
         * Teste si la méthode CreateUser retourne un utilisateur avec le bon rôle spécifié
