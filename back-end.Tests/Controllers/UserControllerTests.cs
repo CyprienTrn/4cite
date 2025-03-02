@@ -386,5 +386,44 @@ namespace back_end.Tests.Controllers
 
             _mockService.Verify(service => service.UpdateUser(id, user), Times.Once);
         }
+
+        /**
+        * Teste si la méthode UpdateUser retourne l'utilisateur mis à jour
+        */
+        [Fact]
+        public void UpdateUser_ReturnsUpdatedUser()
+        {
+            // Arrange
+            Guid id = Guid.NewGuid();
+            User user = new User
+            {
+                Id = id,
+                Pseudo = "User1",
+                Mail = "user1@hotmail.com",
+                Password = "Password1"
+            };
+
+            _controller.CreateUser(user);
+
+            User updatedUser = new User
+            {
+                Id = id,
+                Pseudo = "User2",
+                Mail = "user2@hotmail.com",
+                Password = "Password2"
+            };
+
+            _mockService.Setup(service => service.UpdateUser(id, updatedUser)).Returns(updatedUser);
+
+            // Act
+            var result = _controller.UpdateUser(id, updatedUser);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnUser = Assert.IsType<User>(okResult.Value);
+            Assert.Equal(updatedUser, returnUser);
+
+            _mockService.Verify(service => service.UpdateUser(id, updatedUser), Times.Once);
+        }
     }
 }
