@@ -138,5 +138,27 @@ namespace back_end.Tests.Controllers
 
             _mockService.Verify(service => service.GetUserById(id), Times.Once);
         }
+
+        /**
+        * Teste si la méthode GetUserById retourne un message d'erreur si une exception est levée
+        */
+        [Fact]
+        public void GetUserById_ReturnsInternalServerError()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+
+            _mockService.Setup(service => service.GetUserById(id)).Throws(new Exception("Erreur interne"));
+
+            // Act
+            var result = _controller.GetUserById(id);
+
+            // Assert
+            var statusCodeResult = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(500, statusCodeResult.StatusCode);
+            Assert.Equal("Erreur interne : Erreur interne", statusCodeResult.Value);
+
+            _mockService.Verify(service => service.GetUserById(id), Times.Once);
+        }
     }
 }
