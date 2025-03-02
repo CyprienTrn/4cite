@@ -5,5 +5,6 @@ namespace back_end.Interfaces
     public interface IUserService
     {
         List<User> GetAllUsers();
+        User GetUserById(Guid id);
     }
 }
