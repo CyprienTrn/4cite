@@ -57,7 +57,7 @@ namespace back_end.Controllers
                 }
 
                 var createdUser = _userService.CreateUser(user);
-                return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createdUser);
+                return Ok(createdUser);
             }
             catch (Exception ex)
             {
