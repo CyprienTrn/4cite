@@ -307,5 +307,29 @@ namespace back_end.Tests.Controllers
 
             _mockService.Verify(service => service.CreateUser(user), Times.Once);
         }
+
+        // ==========================================
+        //          Update user routes
+        // ==========================================
+
+        /**
+        * Teste si la méthode UpdateUser retourne un message d'erreur si les données de l'utilisateur sont manquantes
+        */
+        [Fact]
+        public void UpdateUser_ReturnsBadRequestWhenUserIsNull()
+        {
+            // Arrange
+            User user = null;
+            Guid id = Guid.NewGuid();
+
+            // Act
+            var result = _controller.UpdateUser(id, user);
+
+            // Assert
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal("Les données de l'utilisateur sont manquantes.", badRequestResult.Value);
+
+            _mockService.Verify(service => service.UpdateUser(id, user), Times.Never);
+        }
     }
 }
