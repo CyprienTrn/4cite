@@ -65,5 +65,23 @@ namespace back_end.Controllers
             }
         }
 
+        public IActionResult UpdateUser(User user)
+        {
+            try
+            {
+                if (user == null)
+                {
+                    return BadRequest("L'utilisateur ne peut pas être null.");
+                }
+
+                var updatedUser = _userService.UpdateUser(user);
+                return Ok(updatedUser);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erreur interne : {ex.Message}");
+            }
+        }
+
     }
 }
