@@ -357,5 +357,34 @@ namespace back_end.Tests.Controllers
 
             _mockService.Verify(service => service.UpdateUser(id, user), Times.Never);
         }
+
+        /**
+        * Teste si la méthode UpdateUser retourne un message d'erreur si l'utilisateur à mettre à jour est inexistant
+        */
+        [Fact]
+        public void UpdateUser_ReturnsBadRequestWhenUserToUpdateIsNull()
+        {
+            // Arrange
+            User user = new User
+            {
+                Id = Guid.NewGuid(),
+                Pseudo = "User1",
+                Mail = "user1@hotmail.com",
+                Password = "Password1"
+            };
+            Guid id = Guid.NewGuid();
+
+            _mockService.Setup(service => service.UpdateUser(id, user)).Throws(new Exception("L'utilisateur à mettre à jour est inexistant"));
+
+            // Act
+            var result = _controller.UpdateUser(id, user);
+
+            // Assert
+            var statusCodeResult = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(500, statusCodeResult.StatusCode);
+            Assert.Equal("Erreur interne : L'utilisateur à mettre à jour est inexistant", statusCodeResult.Value);
+
+            _mockService.Verify(service => service.UpdateUser(id, user), Times.Once);
+        }
     }
 }
