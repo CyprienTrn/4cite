@@ -441,5 +441,26 @@ namespace back_end.Tests.Controllers
 
             _mockService.Verify(service => service.DeleteUser(id), Times.Once);
         }
+
+        /**
+        * Teste si la méthode DeleteUser retourne un message d'erreur si l'utilisateur n'est pas trouvé
+        */
+        [Fact]
+        public void DeleteUser_ReturnsNotFound()
+        {
+            // Arrange
+            Guid id = Guid.NewGuid();
+
+            _mockService.Setup(service => service.DeleteUser(id)).Throws(new Exception($"Utilisateur avec l'identifiant '{id}' est introuvable"));
+
+            // Act
+            var result = _controller.DeleteUser(id);
+
+            // Assert
+            var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.Equal($"Utilisateur avec l'ID {id} introuvable.", notFoundResult.Value);
+
+            _mockService.Verify(service => service.DeleteUser(id), Times.Once);
+        }
     }
 }
