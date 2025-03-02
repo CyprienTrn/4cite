@@ -218,7 +218,7 @@ namespace back_end.Tests.Controllers
             var result = _controller.CreateUser(user);
 
             // Assert
-            var createdAtResult = Assert.IsType<CreatedAtActionResult>(result);
+            var createdAtResult = Assert.IsType<OkObjectResult>(result);
             var returnUser = Assert.IsType<User>(createdAtResult.Value);
 
             // Vérifie les attributs de l'utilisateur
