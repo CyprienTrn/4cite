@@ -65,7 +65,7 @@ namespace back_end.Controllers
             }
         }
 
-        public IActionResult UpdateUser(User user)
+        public IActionResult UpdateUser(Guid id, User user)
         {
             try
             {
@@ -74,7 +74,12 @@ namespace back_end.Controllers
                     return BadRequest("L'utilisateur ne peut pas être null.");
                 }
 
-                var updatedUser = _userService.UpdateUser(user);
+                if (id != user.Id) // Vérification de l'ID
+                {
+                    return BadRequest("L'ID de l'utilisateur ne correspond pas à celui de l'URL.");
+                }
+
+                var updatedUser = _userService.UpdateUser(id, user);
                 return Ok(updatedUser);
             }
             catch (Exception ex)
@@ -82,6 +87,5 @@ namespace back_end.Controllers
                 return StatusCode(500, $"Erreur interne : {ex.Message}");
             }
         }
-
     }
 }
