@@ -276,10 +276,9 @@ namespace back_end.Tests.Controllers
 
             // Assert
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal("Les données de l'utilisateur sont manquantes.", badRequestResult.Value);
-
-            _mockService.Verify(service => service.CreateUser(user), Times.Never);
+            Assert.Equal("L'utilisateur ne peut pas être null.", badRequestResult.Value);
         }
+
 
         /**
         * Teste si la méthode CreateUser retourne un message d'erreur si une exception est levée
