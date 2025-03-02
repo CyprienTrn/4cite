@@ -34,6 +34,10 @@ namespace back_end.Controllers
             try
             {
                 var user = _userService.GetUserById(id);
+                if (user == null)
+                {
+                    return NotFound($"Utilisateur avec l'ID {id} introuvable.");
+                }
                 return Ok(user);
             }
             catch (Exception ex)
