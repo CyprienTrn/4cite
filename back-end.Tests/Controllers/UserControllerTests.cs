@@ -225,6 +225,8 @@ namespace back_end.Tests.Controllers
             Assert.Equal(RolesEnum.User, returnUser.Role);
             // Teste si le mot de passe n'est pas en clair
             Assert.NotEqual("Password1", returnUser.Password);
+
+            _mockService.Verify(service => service.CreateUser(user), Times.Once);
         }
 
         /**
