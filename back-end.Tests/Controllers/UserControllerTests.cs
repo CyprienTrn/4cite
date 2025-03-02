@@ -187,12 +187,13 @@ namespace back_end.Tests.Controllers
             var result = _controller.CreateUser(user);
 
             // Assert
-            var okResult = Assert.IsType<ObjectResult>(result);
-            var returnUser = Assert.IsType<User>(okResult.Value);
+            var createdAtResult = Assert.IsType<CreatedAtActionResult>(result);
+            var returnUser = Assert.IsType<User>(createdAtResult.Value);
             Assert.Equal(user, returnUser);
 
             _mockService.Verify(service => service.CreateUser(user), Times.Once);
         }
+
 
 
         /**
