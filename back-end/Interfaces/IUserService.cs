@@ -7,6 +7,7 @@ namespace back_end.Interfaces
         List<User> GetAllUsers();
         User GetUserById(Guid id);
         User CreateUser(User user);
-        User UpdateUser(User user);
+        User UpdateUser(Guid id, User? user);
+        void DeleteUser(Guid id);
     }
 }

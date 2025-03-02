@@ -74,7 +74,8 @@ namespace back_end.Controllers
                     return BadRequest("L'utilisateur ne peut pas être null.");
                 }
 
-                if (id != user.Id) // Vérification de l'ID
+                // 🔹 Vérifie si l'ID de l'utilisateur correspond à celui de l'URL
+                if (id != user.Id)
                 {
                     return BadRequest("L'ID de l'utilisateur ne correspond pas à celui de l'URL.");
                 }
@@ -87,5 +88,6 @@ namespace back_end.Controllers
                 return StatusCode(500, $"Erreur interne : {ex.Message}");
             }
         }
+
     }
 }
