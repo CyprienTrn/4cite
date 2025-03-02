@@ -396,5 +396,28 @@ namespace back_end.Tests.Controllers
 
             _mockService.Verify(service => service.UpdateUser(id, updatedUser), Times.Once);
         }
+
+        // ==========================================
+        //          Delete user routes
+        // ==========================================
+
+        /**
+        * Teste si la méthode DeleteUser retourne un message de confirmation
+        */
+        [Fact]
+        public void DeleteUser_ReturnsConfirmationMessage()
+        {
+            // Arrange
+            Guid id = Guid.NewGuid();
+
+            // Act
+            var result = _controller.DeleteUser(id);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal("Utilisateur supprimé", okResult.Value);
+
+            _mockService.Verify(service => service.DeleteUser(id), Times.Once);
+        }
     }
 }
