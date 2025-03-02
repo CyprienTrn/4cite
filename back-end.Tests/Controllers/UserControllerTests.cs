@@ -84,5 +84,38 @@ namespace back_end.Tests.Controllers
 
             _mockService.Verify(service => service.GetAllUsers(), Times.Once);
         }
+
+        // ==========================================
+        //          Get user by ID routes
+        // ==========================================
+
+        /**
+        * Teste si la méthode GetUserById retourne un utilisateur
+        */
+        [Fact]
+        public void GetUserById_ReturnsUser()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            var user = new User
+            {
+                Id = id,
+                Mail = "user1@hotmail.com",
+                Pseudo = "user1",
+                Password = "password1"
+            };
+
+            _mockService.Setup(service => service.GetUserById(id)).Returns(user);
+
+            // Act
+            var result = _controller.GetUserById(id);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnValue = Assert.IsType<User>(okResult.Value);
+            Assert.Equal(user, returnValue);
+
+            _mockService.Verify(service => service.GetUserById(id), Times.Once);
+        }
     }
 }
