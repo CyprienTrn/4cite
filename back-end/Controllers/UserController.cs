@@ -1,5 +1,6 @@
 using back_end.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using back_end.Models;
 
 namespace back_end.Controllers
 {
@@ -46,5 +47,17 @@ namespace back_end.Controllers
             }
         }
 
+        public IActionResult CreateUser(User user)
+        {
+            try
+            {
+                var createdUser = _userService.CreateUser(user);
+                return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createdUser);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erreur interne : {ex.Message}");
+            }
+        }
     }
 }
