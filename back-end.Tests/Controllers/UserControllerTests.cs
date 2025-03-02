@@ -117,5 +117,26 @@ namespace back_end.Tests.Controllers
 
             _mockService.Verify(service => service.GetUserById(id), Times.Once);
         }
+
+        /**
+        * Teste si la méthode GetUserById retourne un message d'erreur si l'utilisateur n'est pas trouvé
+        */
+        [Fact]
+        public void GetUserById_ReturnsNotFound()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+
+            _mockService.Setup(service => service.GetUserById(id)).Returns((User)null);
+
+            // Act
+            var result = _controller.GetUserById(id);
+
+            // Assert
+            var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.Equal($"Utilisateur avec l'ID {id} introuvable.", notFoundResult.Value);
+
+            _mockService.Verify(service => service.GetUserById(id), Times.Once);
+        }
     }
 }
