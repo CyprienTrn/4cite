@@ -58,18 +58,18 @@ namespace back_end.Services
             }
         }
 
-        public User UpdateUser(Guid id, User? user)
+        public User UpdateUser(User? user)
         {
             if (user == null)
             {
                 throw new Exception("L'utilisateur à mettre à jour est inexistant");
             }
 
-            var userToUpdate = _context.User.Find(id);
+            var userToUpdate = _context.User.Find(user.Id);
 
             if (userToUpdate == null)
             {
-                throw new Exception($"Utilisateur avec l'identifiant '{id}' est introuvable");
+                throw new Exception($"Utilisateur avec l'identifiant '{user.Id}' est introuvable");
             }
 
             try

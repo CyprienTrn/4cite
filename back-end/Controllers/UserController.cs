@@ -69,8 +69,8 @@ namespace back_end.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public IActionResult UpdateUser(Guid id, User user)
+        [HttpPut]
+        public IActionResult UpdateUser(User? user)
         {
             try
             {
@@ -79,13 +79,7 @@ namespace back_end.Controllers
                     return BadRequest("L'utilisateur ne peut pas être null.");
                 }
 
-                // 🔹 Vérifie si l'ID de l'utilisateur correspond à celui de l'URL
-                if (id != user.Id)
-                {
-                    return BadRequest("L'ID de l'utilisateur ne correspond pas à celui de l'URL.");
-                }
-
-                var updatedUser = _userService.UpdateUser(id, user);
+                var updatedUser = _userService.UpdateUser(user);
                 return Ok(updatedUser);
             }
             catch (Exception ex)

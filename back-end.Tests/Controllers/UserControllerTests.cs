@@ -319,43 +319,16 @@ namespace back_end.Tests.Controllers
         public void UpdateUser_ReturnsBadRequestWhenUserIsNull()
         {
             // Arrange
-            User user = null;
-            Guid id = Guid.NewGuid();
+            User? user = null;
 
             // Act
-            var result = _controller.UpdateUser(id, user);
+            var result = _controller.UpdateUser(user);
 
             // Assert
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
             Assert.Equal("L'utilisateur ne peut pas être null.", badRequestResult.Value);
 
-            _mockService.Verify(service => service.UpdateUser(id, user), Times.Never);
-        }
-
-        /**
-        * Teste si la méthode UpdateUser retourne un message d'erreur si l'ID de l'utilisateur ne correspond pas à celui de l'URL
-        */
-        [Fact]
-        public void UpdateUser_ReturnsBadRequestWhenIdDoesNotMatch()
-        {
-            // Arrange
-            User user = new User
-            {
-                Id = Guid.NewGuid(),
-                Pseudo = "User1",
-                Mail = "user1@hotmail.com",
-                Password = "Password1"
-            };
-            Guid id = Guid.NewGuid();
-
-            // Act
-            var result = _controller.UpdateUser(id, user);
-
-            // Assert
-            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal("L'ID de l'utilisateur ne correspond pas à celui de l'URL.", badRequestResult.Value);
-
-            _mockService.Verify(service => service.UpdateUser(id, user), Times.Never);
+            _mockService.Verify(service => service.UpdateUser(user), Times.Never);
         }
 
         /**
@@ -365,10 +338,9 @@ namespace back_end.Tests.Controllers
         public void UpdateUser_ReturnsUpdatedUser()
         {
             // Arrange
-            Guid id = Guid.NewGuid();
             User user = new User
             {
-                Id = id,
+                Id = Guid.NewGuid(),
                 Pseudo = "User1",
                 Mail = "user1@hotmail.com",
                 Password = "Password1"
@@ -378,23 +350,23 @@ namespace back_end.Tests.Controllers
 
             User updatedUser = new User
             {
-                Id = id,
+                Id = user.Id,
                 Pseudo = "User2",
                 Mail = "user2@hotmail.com",
                 Password = "Password2"
             };
 
-            _mockService.Setup(service => service.UpdateUser(id, updatedUser)).Returns(updatedUser);
+            _mockService.Setup(service => service.UpdateUser(updatedUser)).Returns(updatedUser);
 
             // Act
-            var result = _controller.UpdateUser(id, updatedUser);
+            var result = _controller.UpdateUser(updatedUser);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
             var returnUser = Assert.IsType<User>(okResult.Value);
             Assert.Equal(updatedUser, returnUser);
 
-            _mockService.Verify(service => service.UpdateUser(id, updatedUser), Times.Once);
+            _mockService.Verify(service => service.UpdateUser(updatedUser), Times.Once);
         }
 
         // ==========================================
