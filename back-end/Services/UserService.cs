@@ -1,10 +1,11 @@
 using back_end.Database;
 using back_end.Models;
+using back_end.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
 namespace back_end.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly ApplicationDbContext _context;
         private readonly IPasswordHasher<User> _passwordHasher;
@@ -57,6 +58,37 @@ namespace back_end.Services
             }
         }
 
+        public User UpdateUser(User? user)
+        {
+            if (user == null)
+            {
+                throw new Exception("L'utilisateur à mettre à jour est inexistant");
+            }
+
+            var userToUpdate = _context.User.Find(user.Id);
+
+            if (userToUpdate == null)
+            {
+                throw new Exception($"Utilisateur avec l'identifiant '{user.Id}' est introuvable");
+            }
+
+            try
+            {
+                userToUpdate.Pseudo = user.Pseudo;
+                userToUpdate.Mail = user.Mail;
+                userToUpdate.Role = user.Role;
+                userToUpdate.Password = user.Password;
+
+                _context.SaveChanges();
+
+                return userToUpdate;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erreur lors de la mise à jour de l'utilisateur", ex);
+            }
+        }
+
         public void DeleteUser(Guid id)
         {
             var user = _context.User.Find(id);
@@ -74,37 +106,6 @@ namespace back_end.Services
             catch (Exception ex)
             {
                 throw new Exception("Erreur lors de la suppression de l'utilisateur", ex);
-            }
-        }
-
-        public User UpdateUser(Guid id, User? user)
-        {
-            if (user == null)
-            {
-                throw new Exception("L'utilisateur à mettre à jour est inexistant");
-            }
-
-            var userToUpdate = _context.User.Find(id);
-
-            if (userToUpdate == null)
-            {
-                throw new Exception($"Utilisateur avec l'identifiant '{id}' est introuvable");
-            }
-
-            try
-            {
-                userToUpdate.Pseudo = user.Pseudo;
-                userToUpdate.Mail = user.Mail;
-                userToUpdate.Role = user.Role;
-                userToUpdate.Password = user.Password;
-
-                _context.SaveChanges();
-
-                return userToUpdate;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Erreur lors de la mise à jour de l'utilisateur", ex);
             }
         }
     }
