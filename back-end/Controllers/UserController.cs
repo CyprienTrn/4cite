@@ -29,5 +29,18 @@ namespace back_end.Controllers
             }
         }
 
+        public IActionResult GetUserById(Guid id)
+        {
+            try
+            {
+                var user = _userService.GetUserById(id);
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erreur interne : {ex.Message}");
+            }
+        }
+
     }
 }
