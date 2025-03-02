@@ -1,5 +1,6 @@
 using back_end.Controllers;
 using back_end.Interfaces;
+using back_end.Enums;
 using back_end.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -189,6 +190,41 @@ namespace back_end.Tests.Controllers
             var okResult = Assert.IsType<ObjectResult>(result);
             var returnUser = Assert.IsType<User>(okResult.Value);
             Assert.Equal(user, returnUser);
+        }
+
+
+        /**
+        * Teste si la méthode CreateUser retourne un utilisateur avec les bons attributs spécifiés
+        */
+        [Fact]
+        public void CreateUser_ReturnsUserWithRightSpecifiedAttributes()
+        {
+            // Arrange
+            Guid id = Guid.NewGuid();
+            User user = new User
+            {
+                Id = id,
+                Pseudo = "User1",
+                Mail = "user1@hotmail.com",
+                Password = "Password1"
+            };
+
+            _mockService.Setup(service => service.CreateUser(user)).Returns(user);
+
+            // Act
+            var result = _controller.CreateUser(user);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnUser = Assert.IsType<User>(okResult.Value);
+
+            // Teste si les informations de l'utilisateur sont correctes
+            Assert.Equal(id, returnUser.Id);
+            Assert.Equal("User1", returnUser.Pseudo);
+            Assert.Equal("user1@hotmail.com", returnUser.Mail);
+            Assert.Equal(RolesEnum.User, returnUser.Role);
+            // Teste si le mot de passe n'est pas en clair
+            Assert.NotEqual("Password1", returnUser.Password);
         }
     }
 }
