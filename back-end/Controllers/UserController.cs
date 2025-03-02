@@ -1,18 +1,20 @@
-using back_end.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using back_end.Models;
+using back_end.Services;
 
 namespace back_end.Controllers
 {
+    [Route("api/user")]
     public class UserController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly UserService _userService;
 
-        public UserController(IUserService userService)
+        public UserController(UserService userService)
         {
             _userService = userService;
         }
 
+        [HttpGet]
         public IActionResult GetAllUsers()
         {
             try
@@ -30,6 +32,7 @@ namespace back_end.Controllers
             }
         }
 
+        [HttpGet("{id}")]
         public IActionResult GetUserById(Guid id)
         {
             try
@@ -47,6 +50,7 @@ namespace back_end.Controllers
             }
         }
 
+        [HttpPost]
         public IActionResult CreateUser(User user)
         {
             try
@@ -65,6 +69,7 @@ namespace back_end.Controllers
             }
         }
 
+        [HttpPut("{id}")]
         public IActionResult UpdateUser(Guid id, User user)
         {
             try
@@ -89,6 +94,7 @@ namespace back_end.Controllers
             }
         }
 
+        [HttpDelete]
         public IActionResult DeleteUser(Guid id)
         {
             try
