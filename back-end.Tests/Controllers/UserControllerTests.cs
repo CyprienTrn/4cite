@@ -415,7 +415,7 @@ namespace back_end.Tests.Controllers
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal("Utilisateur supprimé", okResult.Value);
+            Assert.Equal($"Utilisateur avec l'ID {id} supprimé.", okResult.Value);
 
             _mockService.Verify(service => service.DeleteUser(id), Times.Once);
         }

@@ -94,12 +94,18 @@ namespace back_end.Controllers
             try
             {
                 _userService.DeleteUser(id);
-                return NoContent();
+                return Ok($"Utilisateur avec l'ID {id} supprimé.");
             }
             catch (Exception ex)
             {
+                if (ex.Message.Contains("introuvable", StringComparison.OrdinalIgnoreCase)) // 🔹 Vérification du message d'exception
+                {
+                    return NotFound($"Utilisateur avec l'ID {id} introuvable.");
+                }
+
                 return StatusCode(500, $"Erreur interne : {ex.Message}");
             }
         }
+
     }
 }
