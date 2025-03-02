@@ -226,5 +226,34 @@ namespace back_end.Tests.Controllers
             // Teste si le mot de passe n'est pas en clair
             Assert.NotEqual("Password1", returnUser.Password);
         }
+
+        /**
+        * Teste si la méthode CreateUser retourne un utilisateur avec le bon rôle spécifié
+        */
+        [Fact]
+        public void CreateUser_ReturnsUserWithRightSpecifiedRole()
+        {
+            // Arrange
+            User user = new User
+            {
+                Id = Guid.NewGuid(),
+                Pseudo = "User1",
+                Mail = "user1@hotmail.com",
+                Password = "Password1",
+                Role = RolesEnum.Admin
+            };
+
+            _mockService.Setup(service => service.CreateUser(user)).Returns(user);
+
+            // Act
+            var result = _controller.CreateUser(user);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnUser = Assert.IsType<User>(okResult.Value);
+
+            // Teste si le rôle de l'utilisateur est correct
+            Assert.Equal(RolesEnum.Admin, returnUser.Role);
+        }
     }
 }
