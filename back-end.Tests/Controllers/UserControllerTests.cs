@@ -331,5 +331,31 @@ namespace back_end.Tests.Controllers
 
             _mockService.Verify(service => service.UpdateUser(id, user), Times.Never);
         }
+
+        /**
+        * Teste si la méthode UpdateUser retourne un message d'erreur si l'ID de l'utilisateur ne correspond pas à celui de l'URL
+        */
+        [Fact]
+        public void UpdateUser_ReturnsBadRequestWhenIdDoesNotMatch()
+        {
+            // Arrange
+            User user = new User
+            {
+                Id = Guid.NewGuid(),
+                Pseudo = "User1",
+                Mail = "user1@hotmail.com",
+                Password = "Password1"
+            };
+            Guid id = Guid.NewGuid();
+
+            // Act
+            var result = _controller.UpdateUser(id, user);
+
+            // Assert
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal("L'ID de l'utilisateur ne correspond pas à celui de l'URL.", badRequestResult.Value);
+
+            _mockService.Verify(service => service.UpdateUser(id, user), Times.Never);
+        }
     }
 }
