@@ -160,5 +160,35 @@ namespace back_end.Tests.Controllers
 
             _mockService.Verify(service => service.GetUserById(id), Times.Once);
         }
+
+        // ==========================================
+        //          Create user routes
+        // ==========================================
+
+        /**
+        * Teste si la méthode CreateUser retourne un utilisateur
+        */
+        [Fact]
+        public void CreateUser_ReturnsUser()
+        {
+            // Arrange
+            User user = new User
+            {
+                Id = Guid.NewGuid(),
+                Pseudo = "User1",
+                Mail = "user1@hotmail.com",
+                Password = "Password1"
+            };
+
+            _mockService.Setup(service => service.CreateUser(user)).Returns(user);
+
+            // Act
+            var result = _controller.CreateUser(user);
+
+            // Assert
+            var okResult = Assert.IsType<ObjectResult>(result);
+            var returnUser = Assert.IsType<User>(okResult.Value);
+            Assert.Equal(user, returnUser);
+        }
     }
 }
