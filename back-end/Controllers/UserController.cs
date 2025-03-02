@@ -1,15 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
 using back_end.Models;
-using back_end.Services;
+using back_end.Interfaces;
 
 namespace back_end.Controllers
 {
     [Route("api/user")]
     public class UserController : ControllerBase
     {
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
-        public UserController(UserService userService)
+        public UserController(IUserService userService)
         {
             _userService = userService;
         }
