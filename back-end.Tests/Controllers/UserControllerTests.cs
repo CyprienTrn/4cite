@@ -280,5 +280,33 @@ namespace back_end.Tests.Controllers
 
             _mockService.Verify(service => service.CreateUser(user), Times.Never);
         }
+
+        /**
+        * Teste si la méthode CreateUser retourne un message d'erreur si une exception est levée
+        */
+        [Fact]
+        public void CreateUser_ReturnsInternalServerError()
+        {
+            // Arrange
+            User user = new User
+            {
+                Id = Guid.NewGuid(),
+                Pseudo = "User1",
+                Mail = "user1@hotmail.com",
+                Password = "Password1"
+            };
+
+            _mockService.Setup(service => service.CreateUser(user)).Throws(new Exception("Erreur interne"));
+
+            // Act
+            var result = _controller.CreateUser(user);
+
+            // Assert
+            var statusCodeResult = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(500, statusCodeResult.StatusCode);
+            Assert.Equal("Erreur interne : Erreur interne", statusCodeResult.Value);
+
+            _mockService.Verify(service => service.CreateUser(user), Times.Once);
+        }
     }
 }
