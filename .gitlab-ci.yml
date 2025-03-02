@@ -71,8 +71,8 @@ build_job:
 
 test_job:
   stage: test
-  only:
-    - tags
+  # only:
+  #   - tags
   script:
     - dotnet test --configuration Release --logger "trx;LogFileName=test_results.trx" --results-directory .\TestResult.xml
   artifacts:
