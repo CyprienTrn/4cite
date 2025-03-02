@@ -254,6 +254,8 @@ namespace back_end.Tests.Controllers
 
             // Teste si le rôle de l'utilisateur est correct
             Assert.Equal(RolesEnum.Admin, returnUser.Role);
+
+            _mockService.Verify(service => service.CreateUser(user), Times.Once);
         }
 
         /**
