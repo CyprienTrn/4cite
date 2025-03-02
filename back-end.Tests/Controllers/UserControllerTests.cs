@@ -255,5 +255,24 @@ namespace back_end.Tests.Controllers
             // Teste si le rôle de l'utilisateur est correct
             Assert.Equal(RolesEnum.Admin, returnUser.Role);
         }
+
+        /**
+        * Teste si la méthode CreateUser retourne un message d'erreur si les données de l'utilisateur sont manquantes
+        */
+        [Fact]
+        public void CreateUser_ReturnsBadRequestWhenUserIsNull()
+        {
+            // Arrange
+            User user = null;
+
+            // Act
+            var result = _controller.CreateUser(user);
+
+            // Assert
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal("Les données de l'utilisateur sont manquantes.", badRequestResult.Value);
+
+            _mockService.Verify(service => service.CreateUser(user), Times.Never);
+        }
     }
 }
