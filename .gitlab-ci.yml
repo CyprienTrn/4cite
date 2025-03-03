@@ -123,7 +123,7 @@ stages:
 before_script:
   - echo "Utilisation de .NET $DOTNET_VERSION"
   - dotnet --version
-  - dotnet nuget add source https://api.nuget.org/v3/index.json --name nuget.org
+  - dotnet nuget add source https://api.nuget.org/v3/index.json --name nuget.org || true # Si la source existe déjà, on passe au reste
   - export PATH="$DOTNET_TOOLS_PATH:$PATH"
   - dotnet tool install -g trx2junit --version 1.4.0
 
