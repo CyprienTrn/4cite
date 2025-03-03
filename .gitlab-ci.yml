@@ -34,7 +34,7 @@ image: mcr.microsoft.com/dotnet/sdk:8.0
 # place project specific paths in variables to make the rest of the script more generic
 variables:
   DOTNET_VERSION: "8.0"
-  TEST_FOLDER: 'back-end.Tests\TestResults'
+  TEST_FOLDER_RESULTS: 'back-end.Tests\TestResults'
   # DEPLOY_FOLDER: 'P:\Projects\YourApp\Builds'
 #   EXE_RELEASE_FOLDER: 'YourApp\bin\Release'
 #   MSI_RELEASE_FOLDER: 'Setup\bin\Release'
@@ -74,17 +74,17 @@ test_job:
   # only:
   #   - tags
   script:
-    - dotnet test --configuration Release --logger "trx;LogFileName=test_results.trx" --results-directory $TEST_FOLDER
-    - ls -R TestResults # test line
+    - dotnet test --configuration Release --logger "trx;LogFileName=test_results.trx" --results-directory $TEST_FOLDER_RESULTS
+    - ls -R $TEST_FOLDER_RESULTS # test line
     - dotnet new tool-manifest # Crée un manifeste d'outils local
     - dotnet tool install trx2junit
-    - dotnet tool run trx2junit $TEST_FOLDER/test_results.trx
-    - ls -R TestResults # test line
+    - dotnet tool run trx2junit $TEST_FOLDER_RESULTS/test_results.trx
+    - ls -R $TEST_FOLDER_RESULTS # test line
   artifacts:
     when: always  # save test results even when the task fails
     expire_in: 1 week  # save gitlab server space, we copy the files we need to deploy folder later on
     paths:
-      - $TEST_FOLDER/test_results.xml
+      - $TEST_FOLDER_RESULTS/test_results.xml
   dependencies:
     - build_job
 
