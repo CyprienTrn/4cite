@@ -75,9 +75,11 @@ test_job:
   #   - tags
   script:
     - dotnet test --configuration Release --logger "trx;LogFileName=test_results.trx" --results-directory $env:TEST_FOLDER
+    - ls -R TestResults # test line
     - dotnet new tool-manifest # Crée un manifeste d'outils local
     - dotnet tool install trx2junit
     - dotnet tool run trx2junit $env:TEST_FOLDER/test_results.trx
+    - ls -R TestResults # test line
   artifacts:
     when: always  # save test results even when the task fails
     expire_in: 1 week  # save gitlab server space, we copy the files we need to deploy folder later on
